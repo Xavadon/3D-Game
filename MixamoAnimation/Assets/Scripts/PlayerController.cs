@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Movement
+    [Header("Movement")]
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _battleWalkSpeed;
     [SerializeField] private float _runSpeed;
@@ -21,16 +22,23 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Combat
+    [Header("Combat")]
+    [SerializeField] private float _damage;
+    public float Damage => _damage;
+
     [SerializeField] private GameObject _sword;
+    private Collider _swordCollider;
     #endregion
 
     #region Rotation
+    [Header("Rotation")]
     [SerializeField] private float _turnSmoothTime = 0.1f;
     private float _turnSmoothVelocity;
     private float _targetAngle;
     #endregion
 
     #region Components
+    [Header("Components")]
     [SerializeField] private Transform _camera;
 
     private Animator _animator;
@@ -41,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool _canAttack = true;
     private bool _canMove = true;
     private bool _canRotate = true;
+    private bool _isAttacking;
     private bool _isFalling;
     private bool _battleMode;
     #endregion
@@ -49,8 +58,11 @@ public class PlayerController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
+        _swordCollider = _sword.GetComponent<Collider>();
     }
 
+
+    //Кривой контроллер, посмотреть гайд, переписать.
     private void Update()
     {
         Move();
@@ -95,7 +107,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButton("Attack") && _canAttack && _battleMode && !_isFalling)
         {
+            _isAttacking = true;
             SetAllConditions(false);
+            _swordCollider.enabled = true;
 
             _animator.SetTrigger("Attack");
         }
@@ -103,6 +117,7 @@ public class PlayerController : MonoBehaviour
 
     private void CanRepeatAttack()
     {
+        _swordCollider.enabled = false;
         _canAttack = true;
         _canRotate = true;
     }
@@ -110,11 +125,12 @@ public class PlayerController : MonoBehaviour
     private void AttackEnd()
     {
         if (!_canAttack) return;
-        Invoke(nameof(EnableWalk), 0.3f);
+        Invoke(nameof(AfterAttackEnd), 0.3f);
     }
 
-    private void EnableWalk()
+    private void AfterAttackEnd()
     {
+        _isAttacking = false;
         _canMove = true;
     }
 
@@ -135,14 +151,18 @@ public class PlayerController : MonoBehaviour
 
     private void Fall()
     {
-        if (_characterController.velocity.y < -6 && !_isFalling)
+        if (!_isAttacking)
         {
-            _isFalling = true;
-            _animator.SetTrigger("Fall");
-        }
-        else if(_characterController.velocity.y > -0.1f)
-        {
-            _isFalling = false;
+            if (_characterController.velocity.y <= -6.9 && !_isFalling)
+            {
+                if (_isAttacking) return;
+                _isFalling = true;
+                _animator.SetTrigger("Fall");
+            }
+            else if (_characterController.velocity.y > -0.1f)
+            {
+                _isFalling = false;
+            }
         }
     }
 
@@ -188,6 +208,7 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat("Velocity", Mathf.Abs(_lookDirection.magnitude * _moveSpeed));
 
         _animator.SetBool("isFalling", _isFalling);
+        _animator.SetBool("isAttacking", _isAttacking);
         _animator.SetBool("BattleMode", _battleMode);
     }
 }
