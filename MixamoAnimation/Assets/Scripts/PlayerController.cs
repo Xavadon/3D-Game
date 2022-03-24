@@ -7,7 +7,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Movement
-    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _walkSpeed;
+    [SerializeField] private float _battleWalkSpeed;
+    [SerializeField] private float _runSpeed;
+    private float _moveSpeed;
     private float _defaultMoveSpeed;
     private float _inputHorizontal => Input.GetAxisRaw("Horizontal");
     private float _inputVertical => Input.GetAxisRaw("Vertical");
@@ -15,13 +18,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 _moveDirection => Quaternion.Euler(0, _targetAngle, 0) * Vector3.forward;
 
     [SerializeField] private float _gravity;
-
-    private bool _canMove = true;
     #endregion
 
     #region Combat
-    private bool _canAttack = true;
-
     [SerializeField] private GameObject _sword;
     #endregion
 
@@ -29,7 +28,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _turnSmoothTime = 0.1f;
     private float _turnSmoothVelocity;
     private float _targetAngle;
-    private bool _canRotate = true;
     #endregion
 
     #region Components
@@ -39,31 +37,65 @@ public class PlayerController : MonoBehaviour
     private CharacterController _characterController;
     #endregion
 
+    #region States
+    private bool _canAttack = true;
+    private bool _canMove = true;
+    private bool _canRotate = true;
+    private bool _isFalling;
+    private bool _battleMode;
+    #endregion
+
     private void Start()
     {
-        _defaultMoveSpeed = _moveSpeed;
-
         _animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
     }
 
     private void Update()
     {
-        Attack();
         Move();
+        Fall();
         Rotate(_lookDirection);
         SetMoveSpeed();
         UpdateAnimator();
+        TakeSword();
+        Attack();
+        Dance();
+    }
+
+    private void TakeSword()
+    {
+        if (Input.GetButtonDown("TakeSword") && !_isFalling)
+        {
+            SetAllConditions(false);
+            if (!_battleMode)
+            {
+                _battleMode = true;
+                _sword.SetActive(true);
+
+                _animator.SetTrigger("EnableBattleMode");
+            }
+            else
+            {
+                _battleMode = false;
+                _sword.SetActive(false);
+
+                _animator.SetTrigger("DisableBattleMode");
+            }
+            Invoke(nameof(TakeSwordEnd),0.2f);
+        }
+    }
+
+    private void TakeSwordEnd()
+    {
+        SetAllConditions(true);
     }
 
     private void Attack()
     {
-        if (Input.GetButton("Attack") && _canAttack)
+        if (Input.GetButton("Attack") && _canAttack && _battleMode && !_isFalling)
         {
-            _canAttack = false;
-            _canMove = false;
-            _canRotate = false;
-            _sword.SetActive(true);
+            SetAllConditions(false);
 
             _animator.SetTrigger("Attack");
         }
@@ -78,26 +110,39 @@ public class PlayerController : MonoBehaviour
     private void AttackEnd()
     {
         if (!_canAttack) return;
-        _canMove = true;
-        Invoke(nameof(DisableSword), 1);
+        Invoke(nameof(EnableWalk), 0.3f);
     }
 
-    private void DisableSword()
+    private void EnableWalk()
     {
-        if (!_canAttack) return;
-        else
-            _sword.SetActive(false);
+        _canMove = true;
+    }
+
+    private void SetAllConditions(bool value)
+    {
+        _canAttack = value;
+        _canMove = value;
+        _canRotate = value;
     }
 
     private void Move()
     {
-        if(_lookDirection.magnitude > 0.1f && _canMove)
-        {
+        if (_lookDirection.magnitude > 0.1f && _canMove)
             _characterController.Move((_moveDirection.normalized * _moveSpeed + Vector3.down * _gravity) * Time.deltaTime);
-        }
         else
-        {
             _characterController.Move((Vector3.down * _gravity) * Time.deltaTime);
+    }
+
+    private void Fall()
+    {
+        if (_characterController.velocity.y < -6 && !_isFalling)
+        {
+            _isFalling = true;
+            _animator.SetTrigger("Fall");
+        }
+        else if(_characterController.velocity.y > -0.1f)
+        {
+            _isFalling = false;
         }
     }
 
@@ -114,9 +159,24 @@ public class PlayerController : MonoBehaviour
     private void SetMoveSpeed()
     {
         if (Input.GetButton("Charge"))
-            _moveSpeed = _defaultMoveSpeed * 3f;
-        else
-            _moveSpeed = _defaultMoveSpeed;
+            _moveSpeed = _runSpeed;
+        else if (_battleMode)
+            _moveSpeed = _battleWalkSpeed;
+        else    
+            _moveSpeed = _walkSpeed;
+    }
+
+    private void Dance()
+    {
+        if (Input.GetButtonDown("Dance") && _lookDirection.magnitude < 0.1f)
+        {
+            _animator.SetTrigger("Dance");
+            _animator.applyRootMotion = true;
+            if(_battleMode) _battleMode = false;
+            _sword.SetActive(false);
+        }
+        if(_lookDirection.magnitude > 0.1f)
+            _animator.applyRootMotion = false;
     }
 
     private void UpdateAnimator()
@@ -126,6 +186,8 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat("Velocity", 0);
         else
             _animator.SetFloat("Velocity", Mathf.Abs(_lookDirection.magnitude * _moveSpeed));
-    }
 
+        _animator.SetBool("isFalling", _isFalling);
+        _animator.SetBool("BattleMode", _battleMode);
+    }
 }
