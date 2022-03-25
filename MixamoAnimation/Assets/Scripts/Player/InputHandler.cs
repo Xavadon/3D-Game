@@ -30,7 +30,14 @@ namespace OK
             if(_cameraHandler != null)
             {
                 _cameraHandler.FollowTarget(delta);
-                _cameraHandler.HandleCameraRotation(delta, _mouseX, _mouseY);
+            }
+        }
+
+        private void Update()
+        {
+            if (_cameraHandler != null)
+            {
+                _cameraHandler.HandleCameraRotation( _mouseX, _mouseY);
             }
         }
 
