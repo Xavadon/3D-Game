@@ -36,6 +36,38 @@ namespace OK
             float delta = Time.deltaTime;
 
             _inputHandler.TickInput(delta);
+            HandleMovement(delta);
+            HandleRollingAndSprinting(delta);
+
+        }
+
+        #region Rotation
+        private Vector3 _normalVector;
+        private Vector3 _targetPosition;
+
+        private void HandleRotation(float delta)
+        {
+            Vector3 targetDir = Vector3.zero;
+            float moveOverride = _inputHandler._moveAmount;
+
+            targetDir = _cameraObject.forward * _inputHandler._vertical;
+            targetDir += _cameraObject.right * _inputHandler._horizontal;
+            targetDir.Normalize();
+            targetDir.y = 0;
+
+            if (targetDir == Vector3.zero)
+                targetDir = _myTransform.forward;
+
+            float rs = _rotationSpeed;
+
+            Quaternion tr = Quaternion.LookRotation(targetDir);
+            Quaternion targetRotation = Quaternion.Slerp(_myTransform.rotation, tr, rs * delta);
+
+            _myTransform.rotation = targetRotation;
+        }
+
+        private void HandleMovement(float delta)
+        {
 
             _moveDirection = _cameraObject.forward * _inputHandler._vertical;
             _moveDirection += _cameraObject.right * _inputHandler._horizontal;
@@ -56,30 +88,27 @@ namespace OK
             }
         }
 
-        #region Movement
-        private Vector3 _normalVector;
-        private Vector3 _targetPosition;
-
-        private void HandleRotation(float delta)
+        public void HandleRollingAndSprinting(float delta)
         {
-            Vector3 targetDir = Vector3.zero;
-            float moveOverride = _inputHandler._moveAmount;
+            if (_animatorHandler._animator.GetBool("IsInteracting"))
+                return;
+            if (_inputHandler._rollFlag)
+            {
+                _moveDirection = _cameraObject.forward * _inputHandler._vertical;
+                _moveDirection += _cameraObject.right * _inputHandler._horizontal;
 
-            targetDir = _cameraObject.forward * _inputHandler._vertical;
-            targetDir += _cameraObject.right * _inputHandler._horizontal;
-
-            targetDir.Normalize();
-            targetDir.y = 0;
-
-            if (targetDir == Vector3.zero)
-                targetDir = _myTransform.forward;
-
-            float rs = _rotationSpeed;
-
-            Quaternion tr = Quaternion.LookRotation(targetDir);
-            Quaternion targetRotation = Quaternion.Slerp(_myTransform.rotation, tr, rs * delta);
-
-            _myTransform.rotation = targetRotation;
+                if (_inputHandler._moveAmount > 0)
+                {
+                    _animatorHandler.PlayTargetAnimation("Roll", true);
+                    _moveDirection.y = 0;
+                    Quaternion rollRotation = Quaternion.LookRotation(_moveDirection);
+                    _myTransform.rotation = rollRotation;
+                }
+                else
+                {
+                    _animatorHandler.PlayTargetAnimation("Backstep", true);
+                }
+            }
         }
 
         #endregion
