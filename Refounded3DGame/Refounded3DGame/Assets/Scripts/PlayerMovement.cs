@@ -20,6 +20,8 @@ namespace OK
 
         [Header("Player Flags")]
         [SerializeField] private bool _isGrounded = true;
+        private bool _isInteracting;
+        private bool _isJumping;
 
         [Header("Rotation")]
         [SerializeField] private float _rotationTime;
@@ -42,13 +44,20 @@ namespace OK
 
         private void Update()
         {
+            GetPlayerFlags();
             HandleFalling();
 
-            if (!_isGrounded)
+            if (!_isGrounded || _isJumping || _isInteracting)
                 return;
 
             Move();
         }
+
+        private void GetPlayerFlags()
+        {
+            _isInteracting = _animatorHandler._isInteracting;
+            _isJumping = _animatorHandler._isJumping;
+    }
 
         private void Move()
         {
@@ -86,7 +95,8 @@ namespace OK
 
             if (!_isGrounded)
             {
-                _animatorHandler.PlayTargetAnimation("Fall");
+                if(!_isInteracting)
+                    _animatorHandler.PlayTargetAnimation("Fall", true);
 
                 _inAirTimer += Time.deltaTime;
                 _rigidbody.AddForce(Vector3.down * _fallingVelocity * _inAirTimer);
@@ -95,9 +105,9 @@ namespace OK
 
             if (Physics.SphereCast(groundRaycastOffst, 0.2f, Vector3.down, out hit, _groundLayer))
             {
-                if (!_isGrounded)
+                if (!_isGrounded && _isInteracting)
                 {
-                    _animatorHandler.PlayTargetAnimation("Land");
+                    _animatorHandler.PlayTargetAnimation("Land", true);
                 }
 
                 _isGrounded = true;
