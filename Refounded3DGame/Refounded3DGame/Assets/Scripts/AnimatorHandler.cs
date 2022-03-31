@@ -17,7 +17,7 @@ namespace OK
             _animator = GetComponent<Animator>();
         }
 
-        private void LateUpdate()
+        private void Update()
         {
             _isInteracting = _animator.GetBool("isInteracting");
             _isJumping = _animator.GetBool("isJumping");

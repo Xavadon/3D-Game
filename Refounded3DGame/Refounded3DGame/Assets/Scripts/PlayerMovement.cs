@@ -67,6 +67,8 @@ namespace OK
         {
             _isInteracting = _animatorHandler._isInteracting;
             _isJumping = _animatorHandler._isJumping;
+
+            _animatorHandler._animator.SetBool("isGrounded", _isGrounded);
         }
 
         private void Move()
@@ -118,9 +120,10 @@ namespace OK
 
         private void HandleFalling()
         {
+            Vector3 position = transform.position;
             RaycastHit hit;
             groundRaycastOffst = transform.position;
-            groundRaycastOffst.y += _raycastOffset;            
+            groundRaycastOffst.y += _raycastOffset;
 
             if (!_isGrounded && !_isJumping)
             {
@@ -139,6 +142,12 @@ namespace OK
                     _animatorHandler.PlayTargetAnimation("Land", true);
                 }
 
+                Vector3 rayCastHitPoint = hit.point;
+                position.y = rayCastHitPoint.y;
+                
+                //slope
+                transform.position = position;
+
                 _isGrounded = true;
                 _inAirTimer = 0;
             }
@@ -146,12 +155,27 @@ namespace OK
             {
                 _isGrounded = false;
             }
+
+            //idk
+            if(_isGrounded && !_isJumping)
+            {
+                /*if (_animatorHandler._isInteracting || _moveDirection.magnitude > 0)
+                {
+                    transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime / 0.1f);
+                }
+                else
+                {
+                    transform.position = position;
+                }*/
+                
+
+            }
         }
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundRaycastOffst + Vector3.down * _raycastMaxDistance, 0.2f);
+            Gizmos.DrawWireSphere(groundRaycastOffst, 0.2f);
         }
     }
 }
