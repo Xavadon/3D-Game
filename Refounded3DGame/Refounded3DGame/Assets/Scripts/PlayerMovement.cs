@@ -59,6 +59,7 @@ namespace OK
 
             Move();
             Jump();
+            Attack();
         }
 
         private void GetPlayerFlags()
@@ -67,6 +68,17 @@ namespace OK
             _isJumping = _animatorHandler._isJumping;
 
             _animatorHandler._animator.SetBool("isGrounded", _isGrounded);
+        }
+
+        private void Attack()
+        {
+            if (Input.GetButtonDown("Attack"))
+            {
+                _rigidbody.velocity = Vector3.zero;
+                _animatorHandler.PlayTargetAnimation("Attack", true, 0.1f);
+                _animatorHandler._animator.SetFloat("Horizontal", 0);
+                _animatorHandler._animator.SetFloat("Vertical", 0);
+            }
         }
 
         private void Move()
@@ -111,7 +123,7 @@ namespace OK
                 _rigidbody.velocity = playerVelocity;
 
                 _animatorHandler._animator.SetBool("isJumping", true);
-                _animatorHandler.PlayTargetAnimation("Jump", false);
+                _animatorHandler.PlayTargetAnimation("Jump", false, 0.1f);
 
             }
         }
@@ -128,7 +140,7 @@ namespace OK
             if (!_isGrounded && !_isJumping)
             {
                 if(!_isInteracting)
-                    _animatorHandler.PlayTargetAnimation("Fall", true);
+                    _animatorHandler.PlayTargetAnimation("Fall", true, 0.1f);
 
                 _inAirTimer += Time.deltaTime;
                 _rigidbody.AddForce(Vector3.down * _fallingVelocity * _inAirTimer);
@@ -139,17 +151,11 @@ namespace OK
             {
                 if (!_isGrounded && _isInteracting)
                 {
-                    _animatorHandler.PlayTargetAnimation("Land", true);
+                    _animatorHandler.PlayTargetAnimation("Land", true, 0.1f);
                 }
 
                 rayCastHitPoint = hit.point;
-                position.y = rayCastHitPoint.y;
-                
-                //slope
-                if (!_isJumping)
-                {
-                    transform.position = position;
-                }
+                position.y = rayCastHitPoint.y;                
 
                 _isGrounded = true;
                 _inAirTimer = 0;
@@ -157,6 +163,11 @@ namespace OK
             else
             {
                 _isGrounded = false;
+            }
+
+            if (_isGrounded && !_isJumping)
+            {
+                transform.position = position;
             }
         }
     }

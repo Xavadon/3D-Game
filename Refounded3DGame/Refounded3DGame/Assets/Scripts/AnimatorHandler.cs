@@ -33,10 +33,10 @@ namespace OK
             _animator.SetFloat("Vertical", vertical, 0.05f, Time.deltaTime);
         }
 
-        public void PlayTargetAnimation(string name, bool isInteracting)
+        public void PlayTargetAnimation(string name, bool isInteracting, float transitionTime)
         {
             _animator.SetBool("isInteracting", isInteracting);
-            _animator.CrossFade(name, 0.1f);
+            _animator.CrossFade(name, transitionTime);
         }
     }
 }
