@@ -20,8 +20,6 @@ namespace OK
         [SerializeField] private float _leapingVelocity;
         private float _inAirTimer;
 
-        private Vector3 groundRaycastOffst;
-
         [Header("Jump")]
         [SerializeField] private float _gravityIntencity;
         [SerializeField] private float _jumpHeight;
@@ -118,11 +116,13 @@ namespace OK
             }
         }
 
+
+        Vector3 rayCastHitPoint;
         private void HandleFalling()
         {
             Vector3 position = transform.position;
             RaycastHit hit;
-            groundRaycastOffst = transform.position;
+            Vector3 groundRaycastOffst = transform.position;
             groundRaycastOffst.y += _raycastOffset;
 
             if (!_isGrounded && !_isJumping)
@@ -135,18 +135,21 @@ namespace OK
                 _rigidbody.AddForce(transform.forward * _leapingVelocity);
             }
 
-            if (Physics.SphereCast(groundRaycastOffst, 0.2f, Vector3.down, out hit, _raycastMaxDistance, _groundLayer))
+            if (Physics.SphereCast(groundRaycastOffst, 0.2f, -Vector3.up, out hit, _raycastMaxDistance, _groundLayer))
             {
                 if (!_isGrounded && _isInteracting)
                 {
                     _animatorHandler.PlayTargetAnimation("Land", true);
                 }
 
-                Vector3 rayCastHitPoint = hit.point;
+                rayCastHitPoint = hit.point;
                 position.y = rayCastHitPoint.y;
                 
                 //slope
-                transform.position = position;
+                if (!_isJumping)
+                {
+                    transform.position = position;
+                }
 
                 _isGrounded = true;
                 _inAirTimer = 0;
@@ -155,27 +158,6 @@ namespace OK
             {
                 _isGrounded = false;
             }
-
-            //idk
-            if(_isGrounded && !_isJumping)
-            {
-                /*if (_animatorHandler._isInteracting || _moveDirection.magnitude > 0)
-                {
-                    transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime / 0.1f);
-                }
-                else
-                {
-                    transform.position = position;
-                }*/
-                
-
-            }
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundRaycastOffst, 0.2f);
         }
     }
 }
