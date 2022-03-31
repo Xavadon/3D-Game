@@ -10,13 +10,22 @@ namespace OK
         [Header("Movement")]
         [SerializeField] private float _moveSpeed;
         private float _defaultMoveSpeed;
+        private Vector3 _moveDirection;
 
         [Header("Ground")]
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private float _raycastOffset;
+        [SerializeField] private float _raycastMaxDistance;
         [SerializeField] private float _fallingVelocity;
         [SerializeField] private float _leapingVelocity;
         private float _inAirTimer;
+
+        private Vector3 groundRaycastOffst;
+
+        [Header("Jump")]
+        [SerializeField] private float _gravityIntencity;
+        [SerializeField] private float _jumpHeight;
+
 
         [Header("Player Flags")]
         [SerializeField] private bool _isGrounded = true;
@@ -51,20 +60,22 @@ namespace OK
                 return;
 
             Move();
+            Jump();
         }
 
         private void GetPlayerFlags()
         {
             _isInteracting = _animatorHandler._isInteracting;
             _isJumping = _animatorHandler._isJumping;
-    }
+        }
 
         private void Move()
         {
             Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             input.Normalize();
+            _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed * input.magnitude;
 
-            _rigidbody.velocity = _rotationAngle * Vector3.forward * _moveSpeed * input.magnitude;
+            _rigidbody.velocity = _moveDirection;
 
             ApplyCameraRotation(input);
             SetMoveSpeed();
@@ -73,10 +84,13 @@ namespace OK
 
         private void ApplyCameraRotation(Vector3 direction)
         {
-            float _targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
-            float rotationAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _rotationVelocity, _rotationTime);
-            _rotationAngle = Quaternion.Euler(0, rotationAngle, 0);
-            transform.rotation = _rotationAngle;
+            if (direction.magnitude > 0.1f)
+            {
+                float _targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
+                float rotationAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _rotationVelocity, _rotationTime);
+                _rotationAngle = Quaternion.Euler(0, rotationAngle, 0);
+                transform.rotation = _rotationAngle;
+            }
         }
 
         private void SetMoveSpeed()
@@ -87,13 +101,28 @@ namespace OK
                 _moveSpeed = _defaultMoveSpeed;
         }
 
+        private void Jump()
+        {
+            if (Input.GetButton("Jump") && _isGrounded /*&& !_isInteracting*/)
+            {
+                float jumpingVelocity = Mathf.Sqrt(-2 * _gravityIntencity * _jumpHeight);
+                Vector3 playerVelocity = _moveDirection;
+                playerVelocity.y = jumpingVelocity;
+                _rigidbody.velocity = playerVelocity;
+
+                _animatorHandler._animator.SetBool("isJumping", true);
+                _animatorHandler.PlayTargetAnimation("Jump", false);
+
+            }
+        }
+
         private void HandleFalling()
         {
             RaycastHit hit;
-            Vector3 groundRaycastOffst = transform.position;
+            groundRaycastOffst = transform.position;
             groundRaycastOffst.y += _raycastOffset;            
 
-            if (!_isGrounded)
+            if (!_isGrounded && !_isJumping)
             {
                 if(!_isInteracting)
                     _animatorHandler.PlayTargetAnimation("Fall", true);
@@ -103,7 +132,7 @@ namespace OK
                 _rigidbody.AddForce(transform.forward * _leapingVelocity);
             }
 
-            if (Physics.SphereCast(groundRaycastOffst, 0.2f, Vector3.down, out hit, _groundLayer))
+            if (Physics.SphereCast(groundRaycastOffst, 0.2f, Vector3.down, out hit, _raycastMaxDistance, _groundLayer))
             {
                 if (!_isGrounded && _isInteracting)
                 {
@@ -117,6 +146,12 @@ namespace OK
             {
                 _isGrounded = false;
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(groundRaycastOffst + Vector3.down * _raycastMaxDistance, 0.2f);
         }
     }
 }

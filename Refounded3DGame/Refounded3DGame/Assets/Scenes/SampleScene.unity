@@ -1218,7 +1218,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 2.75508e-40, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -1699,6 +1699,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a93868853c4ff2c4eb617433aadb479d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
+  _isInteracting: 0
+  _isJumping: 0
 --- !u!1 &1109717078
 GameObject:
   m_ObjectHideFlags: 3
@@ -1854,11 +1857,14 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  _raycastOffset: 1.05
+  _raycastOffset: 0.55
+  _raycastMaxDistance: 0.9
   _fallingVelocity: 10
   _leapingVelocity: 0.25
+  _gravityIntencity: -15
+  _jumpHeight: 3
   _isGrounded: 1
-  _rotationTime: 0.1
+  _rotationTime: 0.05
   _camera: {fileID: 963194228}
 --- !u!1 &1367855539
 GameObject:
