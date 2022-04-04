@@ -154,8 +154,19 @@ namespace OK
                     _animatorHandler.PlayTargetAnimation("Land", true, 0.1f);
                 }
 
+
                 rayCastHitPoint = hit.point;
-                position.y = rayCastHitPoint.y;                
+                position.y = rayCastHitPoint.y;
+
+                if (!_isInteracting && !_isJumping)
+                {
+                    transform.position = position;
+                }
+                if (_isInteracting)
+                {
+                    transform.position = Vector3.Lerp(transform.position, position , 10f);
+                }
+
 
                 _isGrounded = true;
                 _inAirTimer = 0;
@@ -165,10 +176,7 @@ namespace OK
                 _isGrounded = false;
             }
 
-            if (_isGrounded && !_isJumping)
-            {
-                transform.position = position;
-            }
+            
         }
     }
 }
