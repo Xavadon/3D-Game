@@ -17,12 +17,11 @@ namespace OK
         [SerializeField] private float _raycastOffset;
         [SerializeField] private float _raycastMaxDistance;
         [SerializeField] private float _fallingVelocity;
-        [SerializeField] private float _leapingVelocity;
-        private float _inAirTimer;
+        private Vector3 rayCastHitPoint;
+        private bool _isFalling;
 
         [Header("Jump")]
-        [SerializeField] private float _gravityIntencity;
-        [SerializeField] private float _jumpHeight;
+        [SerializeField] private float _jumpForce;
 
 
         [Header("Player Flags")]
@@ -115,21 +114,15 @@ namespace OK
 
         private void Jump()
         {
-            if (Input.GetButton("Jump") && _isGrounded /*&& !_isInteracting*/)
+            if (Input.GetButton("Jump") && _isGrounded)
             {
-                float jumpingVelocity = Mathf.Sqrt(-2 * _gravityIntencity * _jumpHeight);
-                Vector3 playerVelocity = _moveDirection;
-                playerVelocity.y = jumpingVelocity;
-                _rigidbody.velocity = playerVelocity;
+                _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
 
                 _animatorHandler._animator.SetBool("isJumping", true);
                 _animatorHandler.PlayTargetAnimation("Jump", false, 0.1f);
-
             }
         }
 
-
-        Vector3 rayCastHitPoint;
         private void HandleFalling()
         {
             Vector3 position = transform.position;
@@ -137,46 +130,41 @@ namespace OK
             Vector3 groundRaycastOffst = transform.position;
             groundRaycastOffst.y += _raycastOffset;
 
+
             if (!_isGrounded && !_isJumping)
             {
-                if(!_isInteracting)
+                if (!_isInteracting)
+                {
                     _animatorHandler.PlayTargetAnimation("Fall", true, 0.1f);
+                    _isFalling = true;
+                }
 
-                _inAirTimer += Time.deltaTime;
-                _rigidbody.AddForce(Vector3.down * _fallingVelocity * _inAirTimer);
-                _rigidbody.AddForce(transform.forward * _leapingVelocity);
+                _rigidbody.velocity += Vector3.down * _fallingVelocity * Time.deltaTime;
             }
 
             if (Physics.SphereCast(groundRaycastOffst, 0.2f, -Vector3.up, out hit, _raycastMaxDistance, _groundLayer))
             {
-                if (!_isGrounded && _isInteracting)
-                {
-                    _animatorHandler.PlayTargetAnimation("Land", true, 0.1f);
-                }
-
-
                 rayCastHitPoint = hit.point;
                 position.y = rayCastHitPoint.y;
 
-                if (!_isInteracting && !_isJumping)
+                if (_isGrounded && _isFalling)
+                {
+                    _isFalling = false;
+                    _animatorHandler.PlayTargetAnimation("Land", false, 0.1f);
+                    transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime / 0.2f);
+                }
+
+                if (!_isJumping)
                 {
                     transform.position = position;
                 }
-                if (_isInteracting)
-                {
-                    transform.position = Vector3.Lerp(transform.position, position , 10f);
-                }
-
 
                 _isGrounded = true;
-                _inAirTimer = 0;
             }
             else
             {
                 _isGrounded = false;
             }
-
-            
         }
     }
 }
