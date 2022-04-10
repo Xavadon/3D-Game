@@ -15,6 +15,7 @@ namespace OK
         [Header("Rotation")]
         [SerializeField] private float _rotationTime;
         private float _rotationVelocity;
+
         private Quaternion _rotationAngle;
 
         private AnimatorHandler _animatorHandler;
