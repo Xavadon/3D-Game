@@ -11,6 +11,9 @@ namespace OK
 
         private AnimatorHandler _animatorHandler;
 
+        private bool _isDead = false;
+        public  bool IsDead => _isDead;
+
         private void Start()
         {
             _maxHealth = _health;
@@ -24,7 +27,11 @@ namespace OK
                 _health -= damage;
 
                 if (_health <= 0)
+                {
                     _animatorHandler.PlayTargetAnimation("Death", true, 0.2f);
+                    _isDead = true;
+                }
+
                 else
                     _animatorHandler.PlayTargetAnimation("Hurt", true, 0.2f);
 

@@ -7822,6 +7822,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 3
+  _distanceToChase: 10
+  _distanceToStop: 3
   _rotationTime: 0.1
 --- !u!114 &1031145050
 MonoBehaviour:
@@ -10332,6 +10334,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 3
+  _distanceToChase: 10
+  _distanceToStop: 3
   _rotationTime: 0.1
 --- !u!114 &1276549128
 MonoBehaviour:
@@ -11533,6 +11537,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 3
+  _distanceToChase: 10
+  _distanceToStop: 3
   _rotationTime: 0.1
 --- !u!1 &1501073982
 GameObject:
@@ -14748,6 +14754,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 3
+  _distanceToChase: 10
+  _distanceToStop: 3
   _rotationTime: 0.1
 --- !u!114 &2132229058
 MonoBehaviour:

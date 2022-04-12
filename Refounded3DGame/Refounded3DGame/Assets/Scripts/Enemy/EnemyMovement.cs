@@ -12,6 +12,10 @@ namespace OK
         [SerializeField] private float _moveSpeed;
         private Vector3 _moveDirection;
 
+        [Header("Distances")]
+        [SerializeField] private float _distanceToChase;
+        [SerializeField] private float _distanceToStop;
+
         [Header("Rotation")]
         [SerializeField] private float _rotationTime;
         private float _rotationVelocity;
@@ -20,16 +24,21 @@ namespace OK
 
         private AnimatorHandler _animatorHandler;
         private Rigidbody _rigidbody;
+        private EnemyStats _enemyStats;
 
         private void Start()
         {
             _animatorHandler = GetComponentInChildren<AnimatorHandler>();
             _rigidbody = GetComponent<Rigidbody>();
+            _enemyStats = GetComponent<EnemyStats>();
             _target = PlayerStats._singleton.transform;
         }
 
         private void Update()
         {
+            if (_enemyStats.IsDead)
+                return;
+
             Move();
         }
 
@@ -37,9 +46,17 @@ namespace OK
         {
             Vector3 direction = _target.transform.position - transform.position;
             direction.Normalize();
-            _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed;
 
-            _rigidbody.velocity = _moveDirection;
+            if (Vector3.Distance(_target.position, transform.position) < _distanceToChase)
+            {
+                if (Vector3.Distance(_target.position, transform.position) < _distanceToStop)
+                    _rigidbody.velocity = Vector3.zero;
+                else
+                {
+                    _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed;
+                    _rigidbody.velocity = _moveDirection;
+                }
+            }
 
             ApplyRotation(direction);
             _animatorHandler.UpdateAnimatorValues(_rigidbody.velocity);
