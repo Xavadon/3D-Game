@@ -49,6 +49,7 @@ namespace OK
 
             if (Vector3.Distance(_target.position, transform.position) < _distanceToChase)
             {
+                ApplyRotation(direction);
                 if (Vector3.Distance(_target.position, transform.position) < _distanceToStop)
                     _rigidbody.velocity = Vector3.zero;
                 else
@@ -58,7 +59,6 @@ namespace OK
                 }
             }
 
-            ApplyRotation(direction);
             _animatorHandler.UpdateAnimatorValues(_rigidbody.velocity);
         }
         private void ApplyRotation(Vector3 direction)
