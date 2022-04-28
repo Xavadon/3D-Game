@@ -8,7 +8,7 @@ namespace OK
     {        
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out EnemyStats enemy))
+            if (other.TryGetComponent(out EnemyHealth enemy))
             {
                 enemy.Hurt(GetComponentInParent<PlayerCombat>().Damage);
             }

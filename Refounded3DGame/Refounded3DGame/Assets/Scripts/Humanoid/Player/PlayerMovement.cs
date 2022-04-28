@@ -67,10 +67,10 @@ namespace OK
 
         private void GetPlayerFlags()
         {
-            _isInteracting = _animatorHandler._isInteracting;
-            _isJumping = _animatorHandler._isJumping;
+            _isInteracting = _animatorHandler.isInteracting;
+            _isJumping = _animatorHandler.isJumping;
 
-            _animatorHandler._animator.SetBool("isGrounded", _isGrounded);
+            _animatorHandler.animator.SetBool("isGrounded", _isGrounded);
         }
 
 
@@ -112,7 +112,7 @@ namespace OK
             {
                 _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
 
-                _animatorHandler._animator.SetBool("isJumping", true);
+                _animatorHandler.animator.SetBool("isJumping", true);
                 _animatorHandler.PlayTargetAnimation("Jump", false, 0.1f);
             }
         }

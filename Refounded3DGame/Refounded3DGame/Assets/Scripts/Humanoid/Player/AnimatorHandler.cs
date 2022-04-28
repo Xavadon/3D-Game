@@ -7,22 +7,22 @@ namespace OK
     [RequireComponent(typeof(Animator))]
     public class AnimatorHandler : MonoBehaviour
     {
-        public Animator _animator;
+        public Animator animator;
 
-        public bool _isInteracting;
-        public bool _isJumping;
-        public bool _isGrounded;
+        public bool isInteracting;
+        public bool isJumping;
+        public bool isGrounded;
 
         private void Start()
         {
-            _animator = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
-            _isInteracting = _animator.GetBool("isInteracting");
-            _isJumping = _animator.GetBool("isJumping");
-            _isGrounded = _animator.GetBool("isGrounded");
+            isInteracting = animator.GetBool("isInteracting");
+            isJumping = animator.GetBool("isJumping");
+            isGrounded = animator.GetBool("isGrounded");
         }
 
         public void UpdateAnimatorValues(Vector3 velocity)
@@ -31,14 +31,14 @@ namespace OK
             float horizontal = horizontalVelocity.magnitude;
             float vertical = velocity.y;
 
-            _animator.SetFloat("Horizontal", horizontal, 0.1f, Time.deltaTime);
-            _animator.SetFloat("Vertical", vertical, 0.05f, Time.deltaTime);
+            animator.SetFloat("Horizontal", horizontal, 0.1f, Time.deltaTime);
+            animator.SetFloat("Vertical", vertical, 0.05f, Time.deltaTime);
         }
 
         public void PlayTargetAnimation(string name, bool isInteracting, float transitionTime)
         {
-            _animator.SetBool("isInteracting", isInteracting);
-            _animator.CrossFade(name, transitionTime);
+            animator.SetBool("isInteracting", isInteracting);
+            animator.CrossFade(name, transitionTime);
         }
     }
 }

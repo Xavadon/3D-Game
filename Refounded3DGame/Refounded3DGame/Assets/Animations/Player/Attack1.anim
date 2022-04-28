@@ -34459,14 +34459,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 1
   m_Events:
   - time: 0.26666668
-    functionName: EnableSwordCollider
+    functionName: EnableDamageCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.36666667
-    functionName: DisableSwordCollider
+    functionName: DisableDamageCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

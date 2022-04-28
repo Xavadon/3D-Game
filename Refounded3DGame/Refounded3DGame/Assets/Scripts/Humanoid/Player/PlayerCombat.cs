@@ -21,7 +21,7 @@ namespace OK
 
         private void Update()
         {
-            if (!_animatorHandler._isGrounded || _animatorHandler._isJumping || _animatorHandler._isInteracting)
+            if (!_animatorHandler.isGrounded || _animatorHandler.isJumping || _animatorHandler.isInteracting)
                 return;
 
             Attack();
@@ -33,8 +33,8 @@ namespace OK
             {
                 _rigidbody.velocity = Vector3.zero;
                 _animatorHandler.PlayTargetAnimation("Attack", true, 0.1f);
-                _animatorHandler._animator.SetFloat("Horizontal", 0);
-                _animatorHandler._animator.SetFloat("Vertical", 0);
+                _animatorHandler.animator.SetFloat("Horizontal", 0);
+                _animatorHandler.animator.SetFloat("Vertical", 0);
             }
         }
 

@@ -6,16 +6,16 @@ namespace OK
 {
     public class CombatAnimationHandler : MonoBehaviour
     {
-        [SerializeField] private Collider _swordCollider;
+        [SerializeField] private Collider _damageCollider;
 
-        public void EnableSwordCollider()
+        public void EnableDamageCollider()
         {
-            _swordCollider.enabled = true;
+            _damageCollider.enabled = true;
         }
         
-        public void DisableSwordCollider()
+        public void DisableDamageCollider()
         {
-            _swordCollider.enabled = false;
+            _damageCollider.enabled = false;
         }
 
         public void FootStep()

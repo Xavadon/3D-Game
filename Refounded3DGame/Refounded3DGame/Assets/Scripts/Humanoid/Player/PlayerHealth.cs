@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace OK
 {
-    public class EnemyStats : MonoBehaviour
+    public class PlayerHealth : MonoBehaviour
     {
         [SerializeField] private float _health;
         private float _maxHealth;
@@ -12,7 +12,8 @@ namespace OK
         private AnimatorHandler _animatorHandler;
 
         private bool _isDead = false;
-        public  bool IsDead => _isDead;
+        public bool IsDead => _isDead;
+
 
         private void Start()
         {
@@ -20,9 +21,10 @@ namespace OK
             _animatorHandler = GetComponentInChildren<AnimatorHandler>();
         }
 
+
         public void Hurt(float damage)
         {
-            if (_health > 0)
+            if (_health > 0 && !_isDead)
             {
                 _health -= damage;
 
@@ -31,11 +33,17 @@ namespace OK
                     _animatorHandler.PlayTargetAnimation("Death", true, 0.2f);
                     _isDead = true;
                 }
-
                 else
-                    _animatorHandler.PlayTargetAnimation("Hurt", true, 0.2f);
+                    _animatorHandler.PlayTargetAnimation("Hurt", true, 0.1f);
 
             }
+        }
+
+        public void Heal(float heal)
+        {
+            _health += heal;
+            if (_health > _maxHealth)
+                _health = _maxHealth;
         }
     }
 }
