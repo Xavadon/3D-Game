@@ -58,6 +58,9 @@ namespace OK
             GetPlayerFlags();
             HandleFalling();
 
+            if (_isGrounded && _isInteracting)
+                StopMovement();
+
             if (!_isGrounded || _isJumping || _isInteracting)
                 return;
 
@@ -73,6 +76,10 @@ namespace OK
             _animatorHandler.animator.SetBool("isGrounded", _isGrounded);
         }
 
+        private void StopMovement()
+        {
+            _rigidbody.velocity = Vector3.zero;
+        }
 
         private void Move()
         {
@@ -100,7 +107,7 @@ namespace OK
 
         private void SetMoveSpeed()
         {
-            if (Input.GetButton("Run"))
+            if (Input.GetButton("Run") && !_isJumping)
                 _moveSpeed = _defaultMoveSpeed * 1.7f;
             else
                 _moveSpeed = _defaultMoveSpeed;
@@ -110,6 +117,7 @@ namespace OK
         {
             if (Input.GetButton("Jump") && _isGrounded)
             {
+
                 _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
 
                 _animatorHandler.animator.SetBool("isJumping", true);
@@ -129,17 +137,19 @@ namespace OK
             {
                 if (!_isInteracting)
                 {
-                    _animatorHandler.PlayTargetAnimation("Fall", true, 0.1f);
+                    _animatorHandler.PlayTargetAnimation("Fall", false, 0.1f);
                     _isFalling = true;
                 }
 
                 _rigidbody.velocity += Vector3.down * _fallingVelocity * Time.deltaTime;
             }
 
-            if (Physics.SphereCast(groundRaycastOffst, 0.2f, -Vector3.up, out hit, _raycastMaxDistance, _groundLayer))
+            if (Physics.SphereCast(groundRaycastOffst, 0.01f, -Vector3.up, out hit, _raycastMaxDistance, _groundLayer))
             {
                 rayCastHitPoint = hit.point;
                 position.y = rayCastHitPoint.y;
+
+                _isGrounded = true;
 
                 if (_isGrounded && _isFalling)
                 {
@@ -152,8 +162,6 @@ namespace OK
                 {
                     transform.position = position;
                 }
-
-                _isGrounded = true;
             }
             else
             {

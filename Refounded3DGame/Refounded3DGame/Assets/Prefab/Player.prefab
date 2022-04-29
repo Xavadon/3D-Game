@@ -303,12 +303,12 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  _raycastOffset: 0.5
+  _raycastOffset: 0.3
   _raycastMaxDistance: 0.5
   _fallingVelocity: 8
-  _jumpForce: 10
+  _jumpForce: 12
   _isGrounded: 1
-  _rotationTime: 0.1
+  _rotationTime: 0.03
   _camera: {fileID: 0}
 --- !u!114 &4675846484251157897
 MonoBehaviour:

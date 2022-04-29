@@ -1871,7 +1871,7 @@ SphereCollider:
   m_GameObject: {fileID: 4069441957779769392}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
@@ -1978,9 +1978,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3520e52a7069be04fa0cf118476a2170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 3
+  _moveSpeed: 4
   _distanceToChase: 10
-  distanceToStop: 2
+  distanceToStop: 1
   _rotationTime: 0.1
 --- !u!114 &4069441957838729431
 MonoBehaviour:
