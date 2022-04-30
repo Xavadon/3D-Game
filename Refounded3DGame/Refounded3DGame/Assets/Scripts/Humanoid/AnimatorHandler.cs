@@ -7,22 +7,11 @@ namespace OK
     [RequireComponent(typeof(Animator))]
     public class AnimatorHandler : MonoBehaviour
     {
-        public Animator animator;
-
-        public bool isInteracting;
-        public bool isJumping;
-        public bool isGrounded;
+        [HideInInspector] public Animator animator;
 
         private void Start()
         {
             animator = GetComponent<Animator>();
-        }
-
-        private void Update()
-        {
-            isInteracting = animator.GetBool("isInteracting");
-            isJumping = animator.GetBool("isJumping");
-            isGrounded = animator.GetBool("isGrounded");
         }
 
         public void UpdateAnimatorValues(Vector3 velocity)

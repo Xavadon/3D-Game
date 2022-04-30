@@ -7814,23 +7814,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!1 &1755422414 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4675846484251157900, guid: 3afb5e56581057a43889ee174fd6182f, type: 3}
-  m_PrefabInstance: {fileID: 4675846485143007884}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1755422422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755422414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428ed712765adcd45908de43caa603ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1894038030
 Mesh:
   m_ObjectHideFlags: 0

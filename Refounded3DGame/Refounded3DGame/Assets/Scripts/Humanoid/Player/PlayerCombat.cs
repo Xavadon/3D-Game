@@ -4,24 +4,28 @@ using UnityEngine;
 
 namespace OK
 {
+    [RequireComponent(typeof(PlayerFlags))]
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerCombat : MonoBehaviour
     {
         [SerializeField] private float _damage;
         public float Damage => _damage;
 
 
+        private PlayerFlags _playerFlags;
         private Rigidbody _rigidbody;
-        private AnimatorHandler _animatorHandler;
+
+        [SerializeField] private AnimatorHandler _animatorHandler;
 
         private void Start()
         {
+            _playerFlags = GetComponent<PlayerFlags>();
             _rigidbody = GetComponent<Rigidbody>();
-            _animatorHandler = GetComponentInChildren<AnimatorHandler>();
         }
 
         private void Update()
         {
-            if (!_animatorHandler.isGrounded || _animatorHandler.isJumping || _animatorHandler.isInteracting)
+            if (!_playerFlags.isGrounded || _playerFlags.isJumping || _playerFlags.isInteracting)
                 return;
 
             Attack();

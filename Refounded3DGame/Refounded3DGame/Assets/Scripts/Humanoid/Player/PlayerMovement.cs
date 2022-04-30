@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace OK
 {
+    [RequireComponent(typeof(PlayerFlags))]
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerMovement : MonoBehaviour
     {
@@ -29,10 +30,6 @@ namespace OK
         private bool _isInteracting;
         private bool _isJumping;
 
-        [HideInInspector] public bool IsGrounded => _isGrounded;
-        [HideInInspector] public bool IsInteracting => _isInteracting;
-        [HideInInspector] public bool IsJumping => _isJumping;
-
 
         [Header("Rotation")]
         [SerializeField] private float _rotationTime;
@@ -42,14 +39,15 @@ namespace OK
         [Header("Components")]
         [SerializeField] private Transform _camera;
 
-        private AnimatorHandler _animatorHandler;
+        [SerializeField] private AnimatorHandler _animatorHandler;
+        private PlayerFlags _playerFlags;
         private Rigidbody _rigidbody;
 
         private void Start()
         {
             _defaultMoveSpeed = _moveSpeed;
 
-            _animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _playerFlags = GetComponent<PlayerFlags>();
             _rigidbody = GetComponent<Rigidbody>();
         }
 
@@ -70,10 +68,9 @@ namespace OK
 
         private void GetPlayerFlags()
         {
-            _isInteracting = _animatorHandler.isInteracting;
-            _isJumping = _animatorHandler.isJumping;
+            _isInteracting = _playerFlags.isInteracting;
+            _isJumping = _playerFlags.isJumping;
 
-            _animatorHandler.animator.SetBool("isGrounded", _isGrounded);
         }
 
         private void StopMovement()
@@ -132,6 +129,7 @@ namespace OK
             Vector3 groundRaycastOffst = transform.position;
             groundRaycastOffst.y += _raycastOffset;
 
+            _animatorHandler.animator.SetBool("isGrounded", _isGrounded);
 
             if (!_isGrounded && !_isJumping)
             {
@@ -167,6 +165,7 @@ namespace OK
             {
                 _isGrounded = false;
             }
+
         }
     }
 }
