@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace OK
 {
+    [RequireComponent(typeof(PlayerFlags))]
     public class PlayerHealth : MonoBehaviour
     {
         [SerializeField] private float _health;
@@ -18,7 +19,7 @@ namespace OK
         private void Start()
         {
             _maxHealth = _health;
-            _animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _animatorHandler = GetComponent<PlayerFlags>().animatorHandler;
         }
 
 

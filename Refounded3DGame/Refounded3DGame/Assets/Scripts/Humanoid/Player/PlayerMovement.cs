@@ -39,8 +39,8 @@ namespace OK
         [Header("Components")]
         [SerializeField] private Transform _camera;
 
-        [SerializeField] private AnimatorHandler _animatorHandler;
         private PlayerFlags _playerFlags;
+        private AnimatorHandler _animatorHandler;
         private Rigidbody _rigidbody;
 
         private void Start()
@@ -48,6 +48,7 @@ namespace OK
             _defaultMoveSpeed = _moveSpeed;
 
             _playerFlags = GetComponent<PlayerFlags>();
+            _animatorHandler = _playerFlags.animatorHandler;
             _rigidbody = GetComponent<Rigidbody>();
         }
 

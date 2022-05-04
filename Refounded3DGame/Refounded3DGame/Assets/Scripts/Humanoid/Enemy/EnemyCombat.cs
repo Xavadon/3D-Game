@@ -6,6 +6,7 @@ namespace OK
 {
     [RequireComponent(typeof(EnemyMovement))]
     [RequireComponent(typeof(EnemyHealth))]
+    [RequireComponent(typeof(EnemyFlags))]
     public class EnemyCombat : MonoBehaviour
     {
         [SerializeField] private float _attackCooldown;
@@ -20,19 +21,21 @@ namespace OK
 
         private AnimatorHandler _animatorHandler;
         private EnemyHealth _enemyHealth;
+        private EnemyFlags _enemyFlags;
 
         private void Start()
         {
-            _animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _distanceToAttack = GetComponent<EnemyMovement>().stoppingDistance;
             _enemyHealth = GetComponent<EnemyHealth>();
-            _target = Player.singleton.transform;
-            _distanceToAttack = GetComponent<EnemyMovement>().distanceToStop;
+            _enemyFlags = GetComponent<EnemyFlags>();
+            _animatorHandler = _enemyFlags.animatorHandler;
+            _target = PlayerSingleton.singleton.transform;
         }
 
         private void Update()
         {
-            _isPlayerDead = Player.singleton.GetComponent<PlayerHealth>().IsDead;
-            if (Vector3.Distance(_target.position, transform.position) < _distanceToAttack && !_isPlayerDead && !_isCooldown && !_enemyHealth.IsDead /*&& !_animatorHandler.isInteracting*/)
+            _isPlayerDead = PlayerSingleton.singleton.GetComponent<PlayerHealth>().IsDead;
+            if (Vector3.Distance(_target.position, transform.position) < _distanceToAttack && !_isPlayerDead && !_isCooldown && !_enemyHealth.IsDead && !_enemyFlags.isInteracting)
             {
                 Attack();
             }

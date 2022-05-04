@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace OK
 {
-    public class Player : MonoBehaviour
+    public class PlayerSingleton : MonoBehaviour
     {
-        public static Player singleton { get; private set; }
+        public static PlayerSingleton singleton { get; private set; }
 
         private void Awake()
         {

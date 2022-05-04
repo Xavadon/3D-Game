@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace OK
 {
-    public class PlayerFlags : MonoBehaviour
+    public class EnemyFlags : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
         public AnimatorHandler animatorHandler;

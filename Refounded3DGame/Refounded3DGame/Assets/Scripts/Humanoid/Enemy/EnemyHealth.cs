@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace OK
 {
+    [RequireComponent(typeof(EnemyFlags))]
     public class EnemyHealth : MonoBehaviour
     {
         [SerializeField] private float _health;
@@ -17,7 +18,7 @@ namespace OK
         private void Start()
         {
             _maxHealth = _health;
-            _animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _animatorHandler = GetComponent<EnemyFlags>().animatorHandler;
         }
 
         public void Hurt(float damage)
@@ -31,10 +32,8 @@ namespace OK
                     _animatorHandler.PlayTargetAnimation("Death", true, 0.2f);
                     _isDead = true;
                 }
-
                 else
                     _animatorHandler.PlayTargetAnimation("Hurt", true, 0.2f);
-
             }
         }
     }

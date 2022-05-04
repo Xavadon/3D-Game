@@ -15,11 +15,12 @@ namespace OK
         private PlayerFlags _playerFlags;
         private Rigidbody _rigidbody;
 
-        [SerializeField] private AnimatorHandler _animatorHandler;
+        private AnimatorHandler _animatorHandler;
 
         private void Start()
         {
             _playerFlags = GetComponent<PlayerFlags>();
+            _animatorHandler = _playerFlags.animatorHandler;
             _rigidbody = GetComponent<Rigidbody>();
         }
 
