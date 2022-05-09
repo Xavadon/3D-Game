@@ -10,11 +10,11 @@ namespace OK
     public class EnemyCombat : MonoBehaviour
     {
         [SerializeField] private float _attackCooldown;
+        [SerializeField] private float _attackDistance;
         [SerializeField] private float _damage;
 
         public float Damage => _damage;
 
-        private float _distanceToAttack;
         private Transform _target;
         private bool _isCooldown;
         private bool _isPlayerDead;
@@ -25,7 +25,6 @@ namespace OK
 
         private void Start()
         {
-            _distanceToAttack = GetComponent<EnemyMovement>().stoppingDistance;
             _enemyHealth = GetComponent<EnemyHealth>();
             _enemyFlags = GetComponent<EnemyFlags>();
             _animatorHandler = _enemyFlags.animatorHandler;
@@ -35,7 +34,7 @@ namespace OK
         private void Update()
         {
             _isPlayerDead = PlayerSingleton.singleton.GetComponent<PlayerHealth>().IsDead;
-            if (Vector3.Distance(_target.position, transform.position) < _distanceToAttack && !_isPlayerDead && !_isCooldown && !_enemyHealth.IsDead && !_enemyFlags.isInteracting)
+            if (Vector3.Distance(_target.position, transform.position) < _attackDistance && !_isPlayerDead && !_isCooldown && !_enemyHealth.IsDead && !_enemyFlags.isInteracting)
             {
                 Attack();
             }

@@ -12,6 +12,7 @@ namespace OK
         public bool isInteracting;
         public bool isJumping;
         public bool isGrounded;
+        public bool canTakeDamage = true;
 
         private void Update()
         {

@@ -14,11 +14,11 @@ namespace OK
 
         [Header("Distances")]
         [SerializeField] private float _chasingDistance;
+        [SerializeField] private float _rotationSpeed;
         public float stoppingDistance;
 
         private EnemyHealth _enemyHealth;
         private NavMeshAgent _navMeshAgent;
-
         private AnimatorHandler _animatorHandler;
 
         private void Start()
@@ -32,9 +32,12 @@ namespace OK
         private void Update()
         {
             if (_enemyHealth.IsDead)
-                return;
-
-            Move();
+                _navMeshAgent.enabled = false;
+            else
+            {
+                Move();
+                Rotate();
+            }
         }
 
         private void Move()
@@ -52,6 +55,15 @@ namespace OK
             {
                 _navMeshAgent.SetDestination(transform.position);
                 _animatorHandler.UpdateAnimatorValues(Vector3.zero);
+            }
+        }
+
+        private void Rotate()
+        {
+            if (Vector3.Distance(_target.position, transform.position) < _chasingDistance)
+            {
+                var rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * _rotationSpeed);
             }
         }
     }

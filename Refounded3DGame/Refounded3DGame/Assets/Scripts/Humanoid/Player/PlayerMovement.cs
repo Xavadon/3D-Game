@@ -6,6 +6,7 @@ namespace OK
 {
     [RequireComponent(typeof(PlayerFlags))]
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(PlayerHealth))]
     public class PlayerMovement : MonoBehaviour
     {
         [Header("Movement")]
@@ -24,11 +25,14 @@ namespace OK
         [Header("Jump")]
         [SerializeField] private float _jumpForce;
 
+        [Header("Roll")]
+        [SerializeField] private float _rollForce;
 
         [Header("Player Flags")]
         [SerializeField] private bool _isGrounded = true;
         private bool _isInteracting;
         private bool _isJumping;
+        private bool _isRolling;
 
 
         [Header("Rotation")]
@@ -42,6 +46,7 @@ namespace OK
         private PlayerFlags _playerFlags;
         private AnimatorHandler _animatorHandler;
         private Rigidbody _rigidbody;
+        private PlayerHealth _playerHealth;
 
         private void Start()
         {
@@ -50,21 +55,25 @@ namespace OK
             _playerFlags = GetComponent<PlayerFlags>();
             _animatorHandler = _playerFlags.animatorHandler;
             _rigidbody = GetComponent<Rigidbody>();
+            _playerHealth = GetComponent<PlayerHealth>();
         }
 
         private void Update()
         {
             GetPlayerFlags();
+            if (!_playerHealth.IsDead) ApplyCameraRotation();
+
             HandleFalling();
 
-            if (_isGrounded && _isInteracting)
-                StopMovement();
+            if (_isGrounded && _isInteracting && !_isRolling) StopMovement();
 
             if (!_isGrounded || _isJumping || _isInteracting)
                 return;
 
             Move();
             Jump();
+            Roll();
+
         }
 
         private void GetPlayerFlags()
@@ -74,6 +83,13 @@ namespace OK
 
         }
 
+        private Vector3 GetInput()
+        {
+            Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            input.Normalize();
+            return input;
+        }
+
         private void StopMovement()
         {
             _rigidbody.velocity = Vector3.zero;
@@ -81,23 +97,28 @@ namespace OK
 
         private void Move()
         {
-            Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-            input.Normalize();
-            _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed * input.magnitude;
+            _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed * GetInput().magnitude;
 
             _rigidbody.velocity = _moveDirection;
 
-            ApplyCameraRotation(input);
             SetMoveSpeed();
             _animatorHandler.UpdateAnimatorValues(_rigidbody.velocity);
         }
 
-        private void ApplyCameraRotation(Vector3 direction)
+        private void ApplyCameraRotation()
         {
+            Vector3 direction = GetInput();
+
             if (direction.magnitude > 0.1f)
             {
+                float rotationAngle;
                 float _targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
-                float rotationAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _rotationVelocity, _rotationTime);
+
+                if(_isRolling || _isInteracting)
+                    rotationAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _rotationVelocity, 2);
+                else
+                    rotationAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _rotationVelocity, _rotationTime);
+
                 _rotationAngle = Quaternion.Euler(0, rotationAngle, 0);
                 transform.rotation = _rotationAngle;
             }
@@ -111,16 +132,48 @@ namespace OK
                 _moveSpeed = _defaultMoveSpeed;
         }
 
+        private void Roll()
+        {
+            if (Input.GetButtonDown("Roll") && !_isRolling)
+            {
+                StopMovement();
+                _animatorHandler.PlayTargetAnimation("Roll", true, 0.2f);
+                Quaternion angle = Quaternion.Euler(0, Mathf.Atan2(GetInput().x, GetInput().z) * Mathf.Rad2Deg + _camera.eulerAngles.y, 0);
+               
+                if(GetInput() == Vector3.zero)
+                    _rigidbody.AddForce(transform.forward * _rollForce, ForceMode.Impulse);
+                else
+                    _rigidbody.AddForce(angle * Vector3.forward * _rollForce, ForceMode.Impulse);
+
+                StartCoroutine(nameof(SetIsRolling));
+            }
+        }
+
+        private IEnumerator SetIsRolling()
+        {
+            _isRolling = true;
+            _playerFlags.canTakeDamage = false;
+            yield return new WaitForSeconds(0.7f);
+            _isRolling = false;
+            _playerFlags.canTakeDamage = true;
+        }
+
         private void Jump()
         {
-            if (Input.GetButton("Jump") && _isGrounded)
+            if (Input.GetButtonDown("Jump") && _isGrounded)
             {
-
                 _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
 
-                _animatorHandler.animator.SetBool("isJumping", true);
                 _animatorHandler.PlayTargetAnimation("Jump", false, 0.1f);
+                StartCoroutine(nameof(SetIsJumping));
             }
+        }
+
+        private IEnumerator SetIsJumping()
+        {
+            _animatorHandler.animator.SetBool("isJumping", true);
+            yield return new WaitForSeconds(0.3f);
+            _animatorHandler.animator.SetBool("isJumping", false);
         }
 
         private void HandleFalling()
@@ -136,7 +189,7 @@ namespace OK
             {
                 if (!_isInteracting)
                 {
-                    _animatorHandler.PlayTargetAnimation("Fall", false, 0.1f);
+                    _animatorHandler.PlayTargetAnimation("Fall", true, 0.1f);
                     _isFalling = true;
                 }
 

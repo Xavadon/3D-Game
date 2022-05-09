@@ -11,6 +11,7 @@ namespace OK
         private float _maxHealth;
 
         private AnimatorHandler _animatorHandler;
+        private PlayerFlags _playerFlags;
 
         private bool _isDead = false;
         public bool IsDead => _isDead;
@@ -19,13 +20,13 @@ namespace OK
         private void Start()
         {
             _maxHealth = _health;
-            _animatorHandler = GetComponent<PlayerFlags>().animatorHandler;
+            _playerFlags = GetComponent<PlayerFlags>();
+            _animatorHandler = _playerFlags.animatorHandler;
         }
-
 
         public void Hurt(float damage)
         {
-            if (_health > 0 && !_isDead)
+            if (_health > 0 && !_isDead && _playerFlags.canTakeDamage)
             {
                 _health -= damage;
 

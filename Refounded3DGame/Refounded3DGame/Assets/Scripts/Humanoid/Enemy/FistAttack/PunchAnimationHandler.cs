@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace OK
 {
-    public class CombatAnimationHandler : MonoBehaviour
+    public class PunchAnimationHandler : MonoBehaviour
     {
         [SerializeField] private Collider _damageCollider;
 
