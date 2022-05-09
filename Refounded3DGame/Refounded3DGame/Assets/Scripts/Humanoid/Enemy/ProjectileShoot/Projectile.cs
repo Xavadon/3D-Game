@@ -13,6 +13,8 @@ namespace OK
         [SerializeField] private float _speed;
         [SerializeField] private float _rotateSpeed;
         [SerializeField] private float _distancePredict;
+        [SerializeField] private float _timeToDestroy;
+        [SerializeField] private GameObject _explotion;
 
         private Rigidbody _rigidbody;
 
@@ -25,7 +27,7 @@ namespace OK
         private void FixedUpdate()
         {
             _rigidbody.velocity = transform.forward * _speed;
-            if(Vector3.Distance(transform.position, _target.position) < _distancePredict) Rotate();
+            if(Vector3.Distance(transform.position, _target.position) < _distancePredict && _speed > 0) Rotate();
         }
 
         private void Rotate()
@@ -42,10 +44,19 @@ namespace OK
             {
                 if (other.GetComponent<PlayerFlags>().canTakeDamage)
                 {
+                    _explotion = Instantiate(_explotion, transform.position, Quaternion.identity);
                     player.Hurt(_damage);
-                    Destroy(gameObject);
+                    _speed = 0;
+                    StartCoroutine(nameof(DestroyAfterTime));
                 }
             }
+        }
+
+        private IEnumerator DestroyAfterTime()
+        {
+            yield return new WaitForSeconds(_timeToDestroy);
+            Destroy(gameObject);
+            Destroy(_explotion);
         }
     }
 }
