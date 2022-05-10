@@ -33,7 +33,7 @@ namespace OK
                     _isDead = true;
                 }
                 else
-                    _animatorHandler.PlayTargetAnimation("Hurt", true, 0.2f);
+                    _animatorHandler.PlayTargetAnimation("Hurt", true, 0.1f);
             }
         }
     }

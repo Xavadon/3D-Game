@@ -76,11 +76,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c929309818025bb4ab472b7d8b652d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
+  _damage: 20
   _speed: 10
   _rotateSpeed: 250
-  _distancePredict: 5
-  _timeToDestroy: 2
+  _distancePredict: 4
+  _timeToDestroy: 1
   _explotion: {fileID: 9004310835718414551, guid: fbde24e026c922f4ea53e445d8603d87, type: 3}
 --- !u!199 &6148793789146919586
 ParticleSystemRenderer:

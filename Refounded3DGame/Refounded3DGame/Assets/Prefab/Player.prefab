@@ -242,7 +242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4675846484251157902
 Transform:
   m_ObjectHideFlags: 0
@@ -376,12 +376,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4675846484251157900}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2edb1e72478b06540adaf679d4d939b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _animatorHandler: {fileID: 4675846486105224666}
+  _objectsToHide:
+  - {fileID: 5727844314163829201}
+  - {fileID: 1521947835735290198}
 --- !u!1 &4675846484620755275
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +457,7 @@ GameObject:
   - component: {fileID: 4675846485648185753}
   - component: {fileID: 4675846485655909919}
   - component: {fileID: 4675846486105224666}
-  - component: {fileID: 4675846485648475258}
+  - component: {fileID: 3883032163289881833}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -512,7 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
---- !u!114 &4675846485648475258
+--- !u!114 &3883032163289881833
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -521,7 +524,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4675846485648475257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47b96b25ba6bb83408dbce94f2da3d03, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b4de47d7541f5c4a9a21301bb74100b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _damageCollider: {fileID: 4675846485648475526}
