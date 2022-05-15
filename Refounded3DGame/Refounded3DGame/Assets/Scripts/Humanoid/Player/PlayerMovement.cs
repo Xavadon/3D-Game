@@ -60,6 +60,7 @@ namespace OK
 
         private void Update()
         {
+            UpdateAnimatorValues();
             GetPlayerFlags();
             if (!_playerHealth.IsDead) ApplyCameraRotation();
 
@@ -70,10 +71,24 @@ namespace OK
             if (!_isGrounded || _isJumping || _isInteracting)
                 return;
 
-            Move();
             Jump();
             Roll();
 
+
+        }
+
+        private void UpdateAnimatorValues()
+        {
+            _animatorHandler.UpdateAnimatorValues(_rigidbody.velocity);
+        }
+
+        private void FixedUpdate()
+        {
+
+            if (!_isGrounded || _isJumping || _isInteracting)
+                return; 
+            
+            Move();
         }
 
         private void GetPlayerFlags()
@@ -102,7 +117,6 @@ namespace OK
             _rigidbody.velocity = _moveDirection;
 
             SetMoveSpeed();
-            _animatorHandler.UpdateAnimatorValues(_rigidbody.velocity);
         }
 
         private void ApplyCameraRotation()
@@ -114,14 +128,21 @@ namespace OK
                 float rotationAngle;
                 float _targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
 
-                if(_isRolling || _isInteracting)
-                    rotationAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _rotationVelocity, 2);
-                else
-                    rotationAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _rotationVelocity, _rotationTime);
+                rotationAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _rotationVelocity, SetRotationTime());
 
                 _rotationAngle = Quaternion.Euler(0, rotationAngle, 0);
                 transform.rotation = _rotationAngle;
             }
+        }
+
+        private float SetRotationTime()
+        {
+            if (_isRolling)
+                return 10;
+            if (_isInteracting)
+                return 2;
+            else
+                return _rotationTime;
         }
 
         private void SetMoveSpeed()

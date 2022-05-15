@@ -34,7 +34,7 @@ namespace OK
         }
         private void Attack()
         {
-            if (Input.GetButtonDown("Attack"))
+            if (Input.GetButtonDown("Attack") && !Input.GetButton("Roll"))
             {
                 _rigidbody.velocity = Vector3.zero;
                 _animatorHandler.PlayTargetAnimation("Attack", true, 0.1f);
