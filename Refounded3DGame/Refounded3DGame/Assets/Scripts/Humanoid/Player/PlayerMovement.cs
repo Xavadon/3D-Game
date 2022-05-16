@@ -66,15 +66,14 @@ namespace OK
 
             HandleFalling();
 
-            if (_isGrounded && _isInteracting && !_isRolling) StopMovement();
+            if (_isGrounded && _isInteracting && !_isRolling && !_playerFlags.isAttacking) StopMovement();
+            if (_playerFlags.isAttacking) Roll();
 
             if (!_isGrounded || _isJumping || _isInteracting)
                 return;
 
             Jump();
             Roll();
-
-
         }
 
         private void UpdateAnimatorValues()
@@ -137,9 +136,13 @@ namespace OK
 
         private float SetRotationTime()
         {
-            if (_isRolling)
+            if (_isRolling && _playerFlags.isAttacking)
+                return _rotationTime;
+            else if (_isRolling)
                 return 10;
-            if (_isInteracting)
+            else if (_playerFlags.isAttacking)
+                return 0.5f;
+            else if (_isInteracting)
                 return 2;
             else
                 return _rotationTime;
