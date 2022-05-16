@@ -176,6 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a12b3f9db7aa8504aaf57430cff0068e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name:
+  - isInteracting
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0

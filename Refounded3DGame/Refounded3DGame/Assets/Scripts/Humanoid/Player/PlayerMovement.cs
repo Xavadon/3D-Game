@@ -60,6 +60,7 @@ namespace OK
 
         private void Update()
         {
+            Debug.Log(_rigidbody.velocity);
             UpdateAnimatorValues();
             GetPlayerFlags();
             if (!_playerHealth.IsDead) ApplyCameraRotation();
@@ -74,6 +75,8 @@ namespace OK
 
             Jump();
             Roll();
+            Move();
+
         }
 
         private void UpdateAnimatorValues()
@@ -87,7 +90,6 @@ namespace OK
             if (!_isGrounded || _isJumping || _isInteracting)
                 return; 
             
-            Move();
         }
 
         private void GetPlayerFlags()
@@ -111,11 +113,13 @@ namespace OK
 
         private void Move()
         {
-            _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed * GetInput().magnitude;
-
-            _rigidbody.velocity = _moveDirection;
-
-            SetMoveSpeed();
+            if (!_isRolling)
+            {
+                SetMoveSpeed();
+                _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed * GetInput().magnitude;
+                _rigidbody.velocity = _moveDirection;
+            }
+            else StopMovement();
         }
 
         private void ApplyCameraRotation()
@@ -152,6 +156,8 @@ namespace OK
         {
             if (Input.GetButton("Run") && !_isJumping)
                 _moveSpeed = _defaultMoveSpeed * 1.7f;
+            else if (_isInteracting)
+                _moveSpeed = 0;
             else
                 _moveSpeed = _defaultMoveSpeed;
         }
@@ -160,16 +166,15 @@ namespace OK
         {
             if (Input.GetButtonDown("Roll") && !_isRolling)
             {
-                StopMovement();
+                StartCoroutine(nameof(SetIsRolling));
+
                 _animatorHandler.PlayTargetAnimation("Roll", true, 0.2f);
                 Quaternion angle = Quaternion.Euler(0, Mathf.Atan2(GetInput().x, GetInput().z) * Mathf.Rad2Deg + _camera.eulerAngles.y, 0);
-               
-                if(GetInput() == Vector3.zero)
+
+                if (GetInput() == Vector3.zero)
                     _rigidbody.AddForce(transform.forward * _rollForce, ForceMode.Impulse);
                 else
                     _rigidbody.AddForce(angle * Vector3.forward * _rollForce, ForceMode.Impulse);
-
-                StartCoroutine(nameof(SetIsRolling));
             }
         }
 
@@ -177,7 +182,7 @@ namespace OK
         {
             _isRolling = true;
             _playerFlags.canTakeDamage = false;
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(0.6f);
             _isRolling = false;
             _playerFlags.canTakeDamage = true;
         }

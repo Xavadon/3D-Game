@@ -23,7 +23,7 @@ namespace OK
         {
             _playerFlags = GetComponent<PlayerFlags>();
             _animatorHandler = _playerFlags.animatorHandler;
-            _animator = _animatorHandler.animator;
+            _animator = GetComponent<PlayerFlags>().animatorHandler.animator;
             _rigidbody = GetComponent<Rigidbody>();
         }
 
