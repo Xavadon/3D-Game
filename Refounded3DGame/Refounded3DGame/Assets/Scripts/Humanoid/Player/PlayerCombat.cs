@@ -6,6 +6,7 @@ namespace OK
 {
     [RequireComponent(typeof(PlayerFlags))]
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(PlayerMovement))]
     public class PlayerCombat : MonoBehaviour
     {
         [SerializeField] private float _damage;
@@ -14,6 +15,7 @@ namespace OK
 
 
         private PlayerFlags _playerFlags;
+        private PlayerMovement _playerMovement;
         private Rigidbody _rigidbody;
 
         private AnimatorHandler _animatorHandler;
@@ -25,12 +27,14 @@ namespace OK
             _animatorHandler = _playerFlags.animatorHandler;
             _animator = GetComponent<PlayerFlags>().animatorHandler.animator;
             _rigidbody = GetComponent<Rigidbody>();
+            _playerMovement = GetComponent<PlayerMovement>();
         }
 
         private void Update()
         {
             AttackCombo();
-            
+            _playerMovement.CombatMovement(_attackMovementSpeed);
+
             if (!_playerFlags.isGrounded || _playerFlags.isJumping || _playerFlags.isInteracting)
                 return;
 
@@ -39,12 +43,10 @@ namespace OK
         }
         private void Attack()
         {
-            if (Input.GetButtonDown("Attack") && !Input.GetButton("Roll"))
+            if (Input.GetButtonDown("Attack") && !Input.GetButton("Roll") && !_playerFlags.isAttacking)
             {
-                _rigidbody.velocity = Vector3.zero;
                 _animatorHandler.PlayTargetAnimation("Attack", true, 0.12f);
-
-                SetAnimatorValues();
+                _animator.SetBool("isAttacking", true);
             }
         }
 
@@ -55,16 +57,9 @@ namespace OK
                 if (_playerFlags.isAttacking && _playerFlags.isInteracting)
                 {
                     _animator.SetBool("Attack", true);
-                    _rigidbody.velocity = transform.forward * _attackMovementSpeed;
+                    _animator.SetBool("AttackCombo", true);
                 }
             }
-        }
-
-        private void SetAnimatorValues()
-        {
-            _animator.SetBool("isAttacking", true);
-            _animator.SetFloat("Horizontal", 0);
-            _animator.SetFloat("Vertical", 0);
         }
 
         private void Block()

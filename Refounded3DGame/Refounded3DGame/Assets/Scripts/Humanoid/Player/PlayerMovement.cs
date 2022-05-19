@@ -33,6 +33,7 @@ namespace OK
         private bool _isInteracting;
         private bool _isJumping;
         private bool _isRolling;
+        private bool _isAttacking;
 
 
         [Header("Rotation")]
@@ -60,23 +61,24 @@ namespace OK
 
         private void Update()
         {
-            Debug.Log(_rigidbody.velocity);
+            if (_playerHealth.IsDead) return;
+
             UpdateAnimatorValues();
             GetPlayerFlags();
-            if (!_playerHealth.IsDead) ApplyCameraRotation();
 
+            ApplyCameraRotation();
             HandleFalling();
 
-            if (_isGrounded && _isInteracting && !_isRolling && !_playerFlags.isAttacking) StopMovement();
-            if (_playerFlags.isAttacking) Roll();
+            if (_isGrounded)
+            {
+                Roll();
 
-            if (!_isGrounded || _isJumping || _isInteracting)
-                return;
+                if (_isInteracting || _isJumping)
+                    return;
 
-            Jump();
-            Roll();
-            Move();
-
+                Jump();
+                Move();
+            }
         }
 
         private void UpdateAnimatorValues()
@@ -84,19 +86,11 @@ namespace OK
             _animatorHandler.UpdateAnimatorValues(_rigidbody.velocity);
         }
 
-        private void FixedUpdate()
-        {
-
-            if (!_isGrounded || _isJumping || _isInteracting)
-                return; 
-            
-        }
-
         private void GetPlayerFlags()
         {
             _isInteracting = _playerFlags.isInteracting;
             _isJumping = _playerFlags.isJumping;
-
+            _isAttacking = _playerFlags.isAttacking;
         }
 
         private Vector3 GetInput()
@@ -113,13 +107,31 @@ namespace OK
 
         private void Move()
         {
-            if (!_isRolling)
+            if (!_isRolling && !_isAttacking)
             {
                 SetMoveSpeed();
                 _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed * GetInput().magnitude;
                 _rigidbody.velocity = _moveDirection;
             }
-            else StopMovement();
+        }
+
+        public void CombatMovement(float moveSpeed)
+        {
+             if(_animatorHandler.animator.GetBool("AttackCombo"))
+                _rigidbody.velocity = transform.forward * moveSpeed;
+
+             else if(_isAttacking)
+                StopMovement();
+        }
+
+        private void SetMoveSpeed()
+        {
+            if (Input.GetButton("Run") && !_isJumping)
+                _moveSpeed = _defaultMoveSpeed * 1.7f;
+            else if (_isInteracting)
+                _moveSpeed = 0;
+            else
+                _moveSpeed = _defaultMoveSpeed;
         }
 
         private void ApplyCameraRotation()
@@ -152,23 +164,15 @@ namespace OK
                 return _rotationTime;
         }
 
-        private void SetMoveSpeed()
-        {
-            if (Input.GetButton("Run") && !_isJumping)
-                _moveSpeed = _defaultMoveSpeed * 1.7f;
-            else if (_isInteracting)
-                _moveSpeed = 0;
-            else
-                _moveSpeed = _defaultMoveSpeed;
-        }
-
         private void Roll()
         {
             if (Input.GetButtonDown("Roll") && !_isRolling)
             {
                 StartCoroutine(nameof(SetIsRolling));
+                StopMovement();
 
-                _animatorHandler.PlayTargetAnimation("Roll", true, 0.2f);
+                _animatorHandler.PlayTargetAnimation("Roll", true, 0.15f);
+
                 Quaternion angle = Quaternion.Euler(0, Mathf.Atan2(GetInput().x, GetInput().z) * Mathf.Rad2Deg + _camera.eulerAngles.y, 0);
 
                 if (GetInput() == Vector3.zero)
