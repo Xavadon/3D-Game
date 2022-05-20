@@ -73,6 +73,9 @@ namespace OK
             {
                 Roll();
 
+                if(_isInteracting && !_isAttacking && !_isRolling)
+                    StopMovement();
+
                 if (_isInteracting || _isJumping)
                     return;
 
