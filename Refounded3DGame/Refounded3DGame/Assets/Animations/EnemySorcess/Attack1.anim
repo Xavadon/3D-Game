@@ -42649,7 +42649,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 1
   m_Events:
   - time: 0.5984849
-    functionName: ShootProjectile
+    functionName: NecromancerAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
