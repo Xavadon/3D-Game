@@ -292,6 +292,7 @@ GameObject:
   - component: {fileID: 1550201888785495304}
   - component: {fileID: 1550201888785495305}
   - component: {fileID: 1550201888785495306}
+  - component: {fileID: 696417983}
   m_Layer: 0
   m_Name: Enemy Necromancer
   m_TagString: Untagged
@@ -326,7 +327,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 5
   m_AngularDrag: 5
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
@@ -427,6 +428,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &696417983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550201888785495308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf13785cba82c574e967e23d1d402710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1550201888809354808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1941,7 +1954,7 @@ GameObject:
   - component: {fileID: 1550201890562163074}
   - component: {fileID: 1550201890562163075}
   m_Layer: 0
-  m_Name: Sorceress
+  m_Name: Necromancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1973,7 +1986,7 @@ Animator:
   m_GameObject: {fileID: 1550201890562163077}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: bb5ada740cae9e749a27ebcf41af0d85, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7f03e190af771464595e23fd92cad811, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4dbaf1a9b3a54d642a686f837709d360, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2013,7 +2026,7 @@ MonoBehaviour:
   - {fileID: 1550201889787856939}
   - {fileID: 1550201888758130748}
   - {fileID: 1550201889781144644}
-  _minionPrefab: {fileID: 1550201888785495308}
+  _minionPrefab: {fileID: 7138917453936576148, guid: 4d162243ce1750649a5db559db53c4da, type: 3}
 --- !u!1 &1550201890595098106
 GameObject:
   m_ObjectHideFlags: 0

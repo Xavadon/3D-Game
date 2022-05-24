@@ -34,7 +34,8 @@ namespace OK
         private void Update()
         {
             _isPlayerDead = PlayerSingleton.singleton.GetComponent<PlayerHealth>().IsDead;
-            if (Vector3.Distance(_target.position, transform.position) < _attackDistance && !_isPlayerDead && !_isCooldown && !_enemyHealth.IsDead && !_enemyFlags.isInteracting)
+            if (Vector3.Distance(_target.position, transform.position) < _attackDistance 
+                && !_isPlayerDead && !_isCooldown && !_enemyHealth.IsDead && !_enemyFlags.isInteracting)
             {
                 Attack();
             }

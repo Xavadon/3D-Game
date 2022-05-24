@@ -33,7 +33,7 @@ namespace OK
         {
             if (_enemyHealth.IsDead)
                 _navMeshAgent.enabled = false;
-            else
+            else 
             {
                 Move();
                 Rotate();

@@ -307,7 +307,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Movement
+  m_Name: CombatMovement
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -647,7 +647,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: f63fc3987b401c44c81bb3c0d2c3b146, type: 2}
-    m_Threshold: 0.33333334
+    m_Threshold: 0.13333336
     m_Position: {x: 3, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -655,7 +655,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 7214cbd817676e8468699da9e0adcd72, type: 2}
-    m_Threshold: 0.6666667
+    m_Threshold: 0.2666667
     m_Position: {x: 6, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -664,7 +664,7 @@ BlendTree:
   m_BlendParameter: Horizontal
   m_BlendParameterY: Vertical
   m_MinThreshold: 0
-  m_MaxThreshold: 0.6666667
+  m_MaxThreshold: 0.2666667
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 3
@@ -835,16 +835,16 @@ AnimatorStateMachine:
     m_Position: {x: 300, y: -140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7029533695095984553}
-    m_Position: {x: 210, y: 300, z: 0}
+    m_Position: {x: 620, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3394824363898144575}
-    m_Position: {x: 480, y: 300, z: 0}
+    m_Position: {x: 620, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7449349315289404099}
-    m_Position: {x: 730, y: 300, z: 0}
+    m_Position: {x: 620, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6989427989973193992}
-    m_Position: {x: 442.58423, y: 216.84328, z: 0}
+    m_Position: {x: 620, y: 310, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

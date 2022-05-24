@@ -5,8 +5,10 @@ using UnityEngine;
 namespace OK
 {
     [RequireComponent(typeof(EnemyFlags))]
+    [RequireComponent(typeof(EnemyCollisionHandler))]
     public class EnemyHealth : MonoBehaviour
     {
+        private EnemyCollisionHandler _collisionHandler;
         [SerializeField] private float _health;
         private float _maxHealth;
 
@@ -19,6 +21,7 @@ namespace OK
         {
             _maxHealth = _health;
             _animatorHandler = GetComponent<EnemyFlags>().animatorHandler;
+            _collisionHandler = GetComponent<EnemyCollisionHandler>();
         }
 
         public void Hurt(float damage)
@@ -31,9 +34,12 @@ namespace OK
                 {
                     _animatorHandler.PlayTargetAnimation("Death", true, 0.2f);
                     _isDead = true;
+                    _collisionHandler.DisableCollisions();
                 }
                 else
-                    _animatorHandler.PlayTargetAnimation("Hurt", true, 0.1f);
+                {
+                    _animatorHandler.PlayTargetAnimation("Hurt", true, 0.05f);
+                }
             }
         }
     }
