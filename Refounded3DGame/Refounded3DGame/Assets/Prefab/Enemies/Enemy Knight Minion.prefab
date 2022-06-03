@@ -1856,7 +1856,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cc40f1b9a8fbd6642ad5b1f7b08366e7, type: 2}
+  - {fileID: 2100000, guid: 76ebb576ec1d04a41939056baebf3399, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1957,6 +1957,7 @@ GameObject:
   - component: {fileID: 7138917453936576367}
   - component: {fileID: 7138917453936576366}
   - component: {fileID: 6587368225056609949}
+  - component: {fileID: 6653431180179025726}
   m_Layer: 0
   m_Name: Enemy Knight Minion
   m_TagString: Untagged
@@ -1990,7 +1991,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 5
   m_AngularDrag: 5
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
@@ -2091,6 +2092,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6653431180179025726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138917453936576148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf13785cba82c574e967e23d1d402710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8778573351545175446
 GameObject:
   m_ObjectHideFlags: 0
