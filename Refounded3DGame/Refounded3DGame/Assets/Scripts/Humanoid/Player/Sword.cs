@@ -5,7 +5,7 @@ using UnityEngine;
 namespace OK
 {
     public class Sword : MonoBehaviour
-    {        
+    {
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out EnemyHealth enemy))
