@@ -50,7 +50,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cc40f1b9a8fbd6642ad5b1f7b08366e7, type: 2}
+  - {fileID: 2100000, guid: 37673ecc6a14727438d03633d94dc1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,12 +230,12 @@ GameObject:
   - component: {fileID: 4675846484251157902}
   - component: {fileID: 4675846484251157901}
   - component: {fileID: 4675846484251157903}
+  - component: {fileID: 180035490}
   - component: {fileID: 1755422415}
   - component: {fileID: 4675846484251157896}
   - component: {fileID: 4675846484251157897}
   - component: {fileID: 4675846484251157898}
   - component: {fileID: 4675846484251157899}
-  - component: {fileID: 2072921418}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -289,6 +289,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &180035490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4675846484251157900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3cd566efd69cf40a4cb9b12c8e03e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1755422415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +318,7 @@ MonoBehaviour:
   isInteracting: 0
   isJumping: 0
   isGrounded: 0
+  isAttacking: 0
   canTakeDamage: 1
 --- !u!114 &4675846484251157896
 MonoBehaviour:
@@ -343,7 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a132269d66f48c641b9569445554687d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 20
+  _attackMovementSpeed: 0.7
 --- !u!114 &4675846484251157898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c9640fdcac089409aa5d457cd696e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 100
+  _health: 1
 --- !u!114 &4675846484251157899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,22 +382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64d2242639b9744dbfe655a1463af42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2072921418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4675846484251157900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2edb1e72478b06540adaf679d4d939b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animatorHandler: {fileID: 4675846486105224666}
-  _objectsToHide:
-  - {fileID: 5727844314163829201}
-  - {fileID: 1521947835735290198}
 --- !u!1 &4675846484620755275
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +454,7 @@ GameObject:
   - component: {fileID: 4675846485648185753}
   - component: {fileID: 4675846485655909919}
   - component: {fileID: 4675846486105224666}
-  - component: {fileID: 3883032163289881833}
+  - component: {fileID: 1248723098}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -515,7 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
---- !u!114 &3883032163289881833
+--- !u!114 &1248723098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -524,10 +521,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4675846485648475257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b4de47d7541f5c4a9a21301bb74100b, type: 3}
+  m_Script: {fileID: 11500000, guid: 31fb351edcf902046ad5569f3471308d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _damageCollider: {fileID: 4675846485648475526}
+  _eqipmetToHide:
+  - {fileID: 5727844314163829201}
+  - {fileID: 1521947835735290198}
 --- !u!1 &4675846485648475259
 GameObject:
   m_ObjectHideFlags: 0

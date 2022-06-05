@@ -5,13 +5,16 @@ using UnityEngine;
 namespace OK
 {
     [RequireComponent(typeof(PlayerFlags))]
+    [RequireComponent(typeof(PlayerCharacteristics))]
     public class PlayerHealth : MonoBehaviour
     {
-        [SerializeField] private float _health;
+        private float _health;
         private float _maxHealth;
+        private float _defence;
 
         private AnimatorHandler _animatorHandler;
         private PlayerFlags _playerFlags;
+        private PlayerCharacteristics _playerCharacteristics;
 
         private bool _isDead = false;
         public bool IsDead => _isDead;
@@ -19,7 +22,11 @@ namespace OK
 
         private void Start()
         {
+            _playerCharacteristics = GetComponent<PlayerCharacteristics>();
+            _health = _playerCharacteristics.Health;
             _maxHealth = _health;
+            _defence = _playerCharacteristics.Defence;
+
             _playerFlags = GetComponent<PlayerFlags>();
             _animatorHandler = _playerFlags.animatorHandler;
         }
@@ -28,6 +35,7 @@ namespace OK
         {
             if (_health > 0 && !_isDead && _playerFlags.canTakeDamage)
             {
+                damage -= _defence;
                 _health -= damage;
 
                 if (_health <= 0)

@@ -10,7 +10,7 @@ namespace OK
     [RequireComponent(typeof(EnemyFlags))]
     public class EnemyMovement : MonoBehaviour
     {
-        private Transform _target;
+        public Transform _target;
 
         [Header("Distances")]
         [SerializeField] private float _chasingDistance;

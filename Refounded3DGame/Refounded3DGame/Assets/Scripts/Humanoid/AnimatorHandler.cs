@@ -9,7 +9,7 @@ namespace OK
     {
         [HideInInspector] public Animator animator;
 
-        private void Start()
+        private void Awake()
         {
             animator = GetComponent<Animator>();
         }

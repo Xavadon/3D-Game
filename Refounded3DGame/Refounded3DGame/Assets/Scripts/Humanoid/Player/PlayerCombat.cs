@@ -7,14 +7,16 @@ namespace OK
     [RequireComponent(typeof(PlayerFlags))]
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(PlayerMovement))]
+    [RequireComponent(typeof(PlayerCharacteristics))]
     public class PlayerCombat : MonoBehaviour
     {
-        [SerializeField] private float _damage;
+        private float _damage;
         [SerializeField] private float _attackMovementSpeed;
         public float Damage => _damage;
 
         private PlayerFlags _playerFlags;
         private PlayerMovement _playerMovement;
+        private PlayerCharacteristics _playerCharacteristics;
 
         private AnimatorHandler _animatorHandler;
         private Animator _animator;
@@ -27,6 +29,8 @@ namespace OK
             _animatorHandler = _playerFlags.animatorHandler;
             _animator = GetComponent<PlayerFlags>().animatorHandler.animator;
             _playerMovement = GetComponent<PlayerMovement>();
+            _playerCharacteristics = GetComponent<PlayerCharacteristics>();
+            _damage = _playerCharacteristics.Damage;
         }
 
         private void Update()
