@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace OK
 {
     public class PlayerCharacteristics : MonoBehaviour
     {
+        [SerializeField] private GameObject _characteristicsPanel;
+        [SerializeField] private Text _characteristicsText;
+
+        bool _isPanelActive;
+
         private float _health;
         private float _endurance;
         private float _mana;
@@ -28,22 +34,32 @@ namespace OK
         private void Awake()
         {
             UpdateValues();
+        }
 
+        private void Update()
+        {
+            EnablePanel();
         }
 
         private void UpdateValues()
         {
             _health = PlayerPrefs.GetFloat("health");
+            if (_health == 0)
+            {
+                SetDefaultValues();
+                return;
+            }
             _endurance = PlayerPrefs.GetFloat("endurance");
             _mana = PlayerPrefs.GetFloat("mana");
             _damage = PlayerPrefs.GetFloat("damage");
             _defence = PlayerPrefs.GetFloat("defence");
             _experience = PlayerPrefs.GetFloat("experience");
             _level = PlayerPrefs.GetFloat("level");
-            _expToLevelUp = 100 + 50 * _level;
-            Debug.Log("Exp: " + _experience + "/" + _expToLevelUp + " Lvl: " + _level);
-            Debug.Log("Health: " + _health + " Mana: " + _mana + " Damage: " + _damage);
+            _expToLevelUp = 100 + 50 * (_level - 1);
+
+            SetUI();
         }
+
 
         private void SetDefaultValues()
         {
@@ -54,6 +70,7 @@ namespace OK
             PlayerPrefs.SetFloat("defence", 5);
             PlayerPrefs.SetFloat("experience", 0);
             PlayerPrefs.SetFloat("level", 1);
+            UpdateValues();
         }
 
         public void AddExp(float value)
@@ -81,6 +98,36 @@ namespace OK
         {
             var currentValue = PlayerPrefs.GetFloat(name);
             PlayerPrefs.SetFloat(name, currentValue + value);
+        }
+
+        private void SetUI()
+        {
+            _characteristicsText.text =
+                _health + "\n"
+                + _endurance + "\n"
+                + _mana + "\n"
+                + _damage + "\n"
+                + _defence + "\n\n"
+                + _level + "\n"
+                + _experience + "/" + _expToLevelUp;
+        }
+
+        private void EnablePanel()
+        {
+
+            if(Input.GetButtonDown("ShowCharacteristicsPanel"))
+            {
+                if (_isPanelActive)
+                {
+                    _characteristicsPanel.SetActive(false);
+                    _isPanelActive = false;
+                }
+                else
+                {
+                    _characteristicsPanel.SetActive(true);
+                    _isPanelActive = true;
+                }
+            }
         }
     }
 }

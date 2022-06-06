@@ -44,7 +44,7 @@ namespace OK
             {
                 if (other.GetComponent<PlayerFlags>().canTakeDamage)
                 {
-                    _explotion = Instantiate(_explotion, transform.position, Quaternion.identity);
+                    Instantiate(_explotion, transform.position, Quaternion.identity);
                     player.Hurt(_damage);
                     _speed = 0;
                     StartCoroutine(nameof(DestroyAfterTime));
@@ -56,7 +56,6 @@ namespace OK
         {
             yield return new WaitForSeconds(_timeToDestroy);
             Destroy(gameObject);
-            Destroy(_explotion);
         }
     }
 }

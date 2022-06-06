@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace OK
 {
@@ -8,6 +9,8 @@ namespace OK
     [RequireComponent(typeof(PlayerCharacteristics))]
     public class PlayerHealth : MonoBehaviour
     {
+        [SerializeField] private Image _healthBar;
+
         private float _health;
         private float _maxHealth;
         private float _defence;
@@ -33,7 +36,7 @@ namespace OK
 
         public void Hurt(float damage)
         {
-            if (_health > 0 && !_isDead && _playerFlags.canTakeDamage)
+            if (_health >= 0 && !_isDead && _playerFlags.canTakeDamage)
             {
                 damage -= _defence;
                 _health -= damage;
@@ -45,8 +48,8 @@ namespace OK
                 }
                 else
                     _animatorHandler.PlayTargetAnimation("Hurt", true, 0.1f);
-
             }
+            FillHealthBar();
         }
 
         public void Heal(float heal)
@@ -54,6 +57,11 @@ namespace OK
             _health += heal;
             if (_health > _maxHealth)
                 _health = _maxHealth;
+        }
+
+        private void FillHealthBar()
+        {
+            _healthBar.fillAmount = _health / _maxHealth;
         }
     }
 }

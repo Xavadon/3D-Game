@@ -61,7 +61,11 @@ namespace OK
 
         private void Update()
         {
-            if (_playerHealth.IsDead) return;
+            if (_playerHealth.IsDead)
+            {
+                Fall();
+                return;
+            }
 
             UpdateAnimatorValues();
             GetPlayerFlags();
@@ -106,6 +110,11 @@ namespace OK
         private void StopMovement()
         {
             _rigidbody.velocity = Vector3.zero;
+        }
+
+        private void Fall()
+        {
+            _rigidbody.velocity += Vector3.down * _fallingVelocity * Time.deltaTime;
         }
 
         private void Move()
@@ -229,7 +238,7 @@ namespace OK
                     _isFalling = true;
                 }
 
-                _rigidbody.velocity += Vector3.down * _fallingVelocity * Time.deltaTime;
+                Fall();
             }
 
             if (Physics.SphereCast(groundRaycastOffst, 0.01f, -Vector3.up, out hit, _raycastMaxDistance, _groundLayer))
