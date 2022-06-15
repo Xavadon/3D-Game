@@ -85,7 +85,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4069441957474182148}
-  m_LocalRotation: {x: 0.0003351445, y: 0.07507893, z: -0.13670903, w: 0.987762}
+  m_LocalRotation: {x: 0.00033514705, y: 0.075078994, z: -0.1367091, w: 0.987762}
   m_LocalPosition: {x: -0.049412113, y: 0.00000007264319, z: -0.0000003315503}
   m_LocalScale: {x: 1.0000001, y: 0.9999999, z: 0.99999964}
   m_Children:
@@ -1414,7 +1414,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4069441957474182266}
-  m_LocalRotation: {x: -0.71872854, y: 0.08101113, z: -0.68578696, w: 0.08101108}
+  m_LocalRotation: {x: -0.71872854, y: 0.08101115, z: -0.6857869, w: 0.08101109}
   m_LocalPosition: {x: -0.29094267, y: 0.0000001490116, z: -0.05771384}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1476,8 +1476,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4069441957474182270}
-  m_LocalRotation: {x: 0.58421, y: -0.41340542, z: -0.5135548, w: -0.4733457}
-  m_LocalPosition: {x: 0.10721941, y: -0.025982328, z: 1.2689091}
+  m_LocalRotation: {x: 0.5842099, y: -0.41340542, z: -0.5135548, w: -0.47334576}
+  m_LocalPosition: {x: 0.10721941, y: -0.025982328, z: 1.2689093}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4069441957474482182}
@@ -1664,6 +1664,7 @@ GameObject:
   - component: {fileID: 4069441957481469900}
   - component: {fileID: 4069441957326638826}
   - component: {fileID: 8710386892381986062}
+  - component: {fileID: 1475336359}
   m_Layer: 0
   m_Name: Sorceress
   m_TagString: Untagged
@@ -1732,6 +1733,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageCollider: {fileID: 4069441957779769398}
+--- !u!114 &1475336359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4069441957474182566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa45dafe9e379d4f8392b2b4d9c4f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sound: {fileID: 11400000, guid: d809bd85c581deb49ad766113d28ea5c, type: 2}
+  _audioSource: {fileID: 432935258}
 --- !u!1 &4069441957474182568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1755,7 +1770,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4069441957474182568}
-  m_LocalRotation: {x: 0.02163726, y: -0.030832594, z: -0.025280165, w: 0.9989705}
+  m_LocalRotation: {x: 0.021637259, y: -0.030832594, z: -0.025280165, w: 0.9989705}
   m_LocalPosition: {x: -0.2152856, y: -0.00020267072, z: 0.00009782029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1884,6 +1899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a053bd60d08fd4b9f2513a0d7a0991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sound: {fileID: 11400000, guid: d809bd85c581deb49ad766113d28ea5c, type: 2}
 --- !u!1 &4069441957838729517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,6 +1917,7 @@ GameObject:
   - component: {fileID: 4069441957838729431}
   - component: {fileID: 1115955492}
   - component: {fileID: 1541093878}
+  - component: {fileID: 432935258}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2049,3 +2066,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf13785cba82c574e967e23d1d402710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &432935258
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4069441957838729517}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

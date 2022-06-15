@@ -21,6 +21,7 @@ namespace OK
 
         private bool _isDead = false;
         public bool IsDead => _isDead;
+        public PlayerFlags PlayerFlags => _playerFlags;
 
 
         private void Start()
@@ -38,7 +39,14 @@ namespace OK
         {
             if (_health >= 0 && !_isDead && _playerFlags.canTakeDamage)
             {
+                if (_playerFlags.isBlocking) 
+                    damage -= damage * 0.8f;
+
                 damage -= _defence;
+
+                if (damage <= 0) 
+                    damage = 1;
+
                 _health -= damage;
 
                 if (_health <= 0)
@@ -46,6 +54,8 @@ namespace OK
                     _animatorHandler.PlayTargetAnimation("Death", true, 0.2f);
                     _isDead = true;
                 }
+                else if (_playerFlags.isBlocking) 
+                    _animatorHandler.PlayTargetAnimation("BlockImpact", false, 0.1f);
                 else
                     _animatorHandler.PlayTargetAnimation("Hurt", true, 0.1f);
             }

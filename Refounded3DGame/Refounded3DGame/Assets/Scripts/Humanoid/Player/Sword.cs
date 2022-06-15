@@ -7,7 +7,7 @@ namespace OK
     [RequireComponent(typeof(AudioSource))]
     public class Sword : MonoBehaviour
     {
-        [SerializeField] private Sound _sound;
+        [SerializeField] private AudioList _sound;
         private AudioSource _аudioSource;
 
         private void Awake()
@@ -26,8 +26,11 @@ namespace OK
 
         private void PlaySound()
         {
-            _аudioSource.clip = _sound.sword[Random.Range(0, _sound.sword.Length)];
-            _аudioSource.Play();
+            if (_sound)
+            {
+                _аudioSource.clip = _sound.hit[Random.Range(0, _sound.hit.Length)];
+                _аudioSource.Play();
+            }
         }
     }
 }

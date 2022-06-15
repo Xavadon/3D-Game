@@ -8,15 +8,17 @@ namespace OK
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(PlayerMovement))]
     [RequireComponent(typeof(PlayerCharacteristics))]
+    [RequireComponent(typeof(PlayerHealth))]
     public class PlayerCombat : MonoBehaviour
     {
         private float _damage;
-        [SerializeField] private float _attackMovementSpeed;
+        private float _attackMovementSpeed = 0.7f;
         public float Damage => _damage;
 
         private PlayerFlags _playerFlags;
         private PlayerMovement _playerMovement;
         private PlayerCharacteristics _playerCharacteristics;
+        private PlayerHealth _playerHealth;
 
         private AnimatorHandler _animatorHandler;
         private Animator _animator;
@@ -25,6 +27,7 @@ namespace OK
 
         private void Start()
         {
+            _playerHealth = GetComponent<PlayerHealth>();
             _playerFlags = GetComponent<PlayerFlags>();
             _animatorHandler = _playerFlags.animatorHandler;
             _animator = GetComponent<PlayerFlags>().animatorHandler.animator;
@@ -35,14 +38,16 @@ namespace OK
 
         private void Update()
         {
+            if (_playerHealth.IsDead) return;
+
             AttackCombo();
             _playerMovement.CombatMovement(_attackMovementSpeed);
 
-            if (!_playerFlags.isGrounded || _playerFlags.isJumping || _playerFlags.isInteracting)
-                return;
-
-            Attack();
+            if (!_playerFlags.isGrounded || _playerFlags.isJumping) return;
             Block();
+
+            if (_playerFlags.isInteracting) return;
+            Attack();
             DrawSword();
         }
 
@@ -71,7 +76,7 @@ namespace OK
         {
             if (Input.GetButtonDown("Attack") && _isCombat)
             {
-                if (_playerFlags.isAttacking && _playerFlags.isInteracting)
+                if (_playerFlags.isAttacking && !Input.GetButton("Roll") && _playerFlags.isInteracting)
                 {
                     _animator.SetBool("Attack", true);
                     _animator.SetBool("AttackCombo", true);
@@ -81,7 +86,17 @@ namespace OK
 
         private void Block()
         {
-            //block
+            if(Input.GetButtonDown("Block") && !Input.GetButton("Roll") && !_playerMovement.IsRolling && _isCombat)
+            {
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                _animator.SetBool("isBlocking", true);
+                _animatorHandler.PlayTargetAnimation("Block", false, 0.12f);
+            }
+            if (Input.GetButtonUp("Block") && _isCombat || _playerMovement.IsRolling)
+            {
+                _animator.SetBool("isBlocking", false);
+
+            }
         }
     }
 }

@@ -23298,14 +23298,14 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 1
   m_Events:
-  - time: 0.121739134
+  - time: 0.1
     functionName: FootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.40927538
+  - time: 0.4
     functionName: FootStep
     data: 
     objectReferenceParameter: {fileID: 0}

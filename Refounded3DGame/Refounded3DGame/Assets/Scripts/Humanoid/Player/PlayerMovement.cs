@@ -35,6 +35,8 @@ namespace OK
         private bool _isRolling;
         private bool _isAttacking;
 
+        public bool IsRolling => _isRolling;
+
 
         [Header("Rotation")]
         [SerializeField] private float _rotationTime;
@@ -77,10 +79,10 @@ namespace OK
             {
                 Roll();
 
-                if(_isInteracting && !_isAttacking && !_isRolling)
+                if (_isInteracting && !_isAttacking && !_isRolling || _playerFlags.isBlocking)
                     StopMovement();
 
-                if (_isInteracting || _isJumping)
+                if (_isInteracting || _isJumping || _playerFlags.isBlocking)
                     return;
 
                 Jump();

@@ -19,11 +19,6 @@ namespace OK
             _damageCollider.enabled = false;
         }
 
-        public void FootStep()
-        {
-            //nothing
-        }
-
         public void HideEqipment()
         {
             for (int i = 0; i < _eqipmetToHide.Length; i++)

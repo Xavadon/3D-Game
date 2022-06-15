@@ -13,6 +13,7 @@ namespace OK
         public bool isJumping;
         public bool isGrounded;
         public bool isAttacking;
+        public bool isBlocking;
         public bool canTakeDamage = true;
 
         private void Update()
@@ -21,6 +22,7 @@ namespace OK
             isJumping = _animator.GetBool("isJumping");
             isGrounded = _animator.GetBool("isGrounded");
             isAttacking = _animator.GetBool("isAttacking");
+            isBlocking = _animator.GetBool("isBlocking");
         }
     }
 }
