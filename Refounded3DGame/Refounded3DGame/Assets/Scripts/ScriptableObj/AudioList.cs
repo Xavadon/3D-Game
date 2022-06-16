@@ -9,7 +9,9 @@ namespace OK
     {
         public AudioClip[] footsteps;
         public AudioClip[] hit;
+        public AudioClip[] swordSwings;
         public AudioClip[] hurt;
+        public AudioClip[] dead;
         public AudioClip[] jump;
     }
 }

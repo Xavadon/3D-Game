@@ -26,7 +26,15 @@ MonoBehaviour:
   hit:
   - {fileID: 8300000, guid: 080eeeb93be9a8248ba775c40c8024b0, type: 3}
   - {fileID: 8300000, guid: 1e676d23ca0ea9e4984a354b676c5536, type: 3}
-  hurt: []
+  swordSwings:
+  - {fileID: 8300000, guid: 52fa067c25c5c401b811eb86d142287e, type: 3}
+  - {fileID: 8300000, guid: b76357a42d03a4722afcba74c3073136, type: 3}
+  hurt:
+  - {fileID: 8300000, guid: 19d68ee8818295f4b9e84757dab1a580, type: 3}
+  - {fileID: 8300000, guid: 356dad0c70a42e74b93a7acf6bcdf146, type: 3}
+  dead:
+  - {fileID: 8300000, guid: 2bdfe6e81e9827f4dbb76f9626f4384a, type: 3}
+  - {fileID: 8300000, guid: 4dc8d2884f37c01489036cbb296cfbac, type: 3}
   jump:
   - {fileID: 8300000, guid: ed3a823ddf8fea14fb916af24c6cd2bc, type: 3}
   - {fileID: 8300000, guid: 0e3814dce130a914f9b9ce4942f579b1, type: 3}

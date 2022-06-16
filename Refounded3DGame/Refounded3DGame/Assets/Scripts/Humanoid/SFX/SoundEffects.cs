@@ -35,5 +35,22 @@ namespace OK
                 _audioSource.Play();
             }
         }
+        private void Death()
+        {
+            if (_sound.dead[0])
+            {
+                _audioSource.clip = _sound.dead[Random.Range(0, _sound.dead.Length)];
+                _audioSource.Play();
+            }
+        }
+
+        private void SwordSwing()
+        {
+            if (_sound.swordSwings[0])
+            {
+                _audioSource.clip = _sound.swordSwings[Random.Range(0, _sound.swordSwings.Length)];
+                _audioSource.Play();
+            }
+        }
     }
 }

@@ -32,13 +32,15 @@ namespace OK
         private void Update()
         {
             if (_enemyHealth.IsDead)
-                _navMeshAgent.enabled = false;
-            else 
             {
-                Move();
-                Rotate();
+                _navMeshAgent.enabled = false;
+                return;
             }
+
+            Move();
+            Rotate();
         }
+        
 
         private void Move()
         {

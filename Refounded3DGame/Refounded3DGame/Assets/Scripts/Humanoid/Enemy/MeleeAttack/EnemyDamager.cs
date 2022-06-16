@@ -5,6 +5,7 @@ using UnityEngine;
 namespace OK
 {
     [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(BoxCollider))]
     public class EnemyDamager : MonoBehaviour
     {
         [SerializeField] private AudioList _sound;
