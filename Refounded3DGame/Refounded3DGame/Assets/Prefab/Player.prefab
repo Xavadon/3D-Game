@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa45dafe9e379d4f8392b2b4d9c4f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sound: {fileID: 0}
+  _sound: {fileID: 11400000, guid: 9775c0084f6012740bed4e6292bd38d1, type: 2}
   _audioSource: {fileID: 4675846485143007887}
 --- !u!1 &4675846485648475259
 GameObject:
@@ -848,8 +848,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.99087554, y: 0.17224821, z: 2.2684166}
-  m_Center: {x: -0.2855091, y: -0.004287001, z: 0.28164425}
+  m_Size: {x: 1.1509336, y: 0.1722482, z: 3.1235309}
+  m_Center: {x: -0.36553895, y: -0.0042882157, z: 0.7091984}
 --- !u!114 &4675846485648475520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,7 +862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ef820d5402cd046bddf5429231ef64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sound: {fileID: 0}
+  _sound: {fileID: 11400000, guid: 9775c0084f6012740bed4e6292bd38d1, type: 2}
 --- !u!82 &4675846485143007888
 AudioSource:
   m_ObjectHideFlags: 0

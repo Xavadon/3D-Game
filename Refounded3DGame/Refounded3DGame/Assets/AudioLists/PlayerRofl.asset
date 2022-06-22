@@ -34,6 +34,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8e9220c1215d4e64197f6758311d9bcd, type: 3}
   - {fileID: 8300000, guid: e7413e5200cc25c4e99ebcd1f2ffc932, type: 3}
   - {fileID: 8300000, guid: ef85eb48c2a57b546ac665b37e0cb678, type: 3}
+  dead:
+  - {fileID: 8300000, guid: 2bdfe6e81e9827f4dbb76f9626f4384a, type: 3}
+  - {fileID: 8300000, guid: 4dc8d2884f37c01489036cbb296cfbac, type: 3}
   jump:
   - {fileID: 8300000, guid: c9703b1fbbeb2cf478dc3cb3ecae1d5b, type: 3}
   - {fileID: 8300000, guid: 48dc8a89ab128b642820d637eaf431cd, type: 3}

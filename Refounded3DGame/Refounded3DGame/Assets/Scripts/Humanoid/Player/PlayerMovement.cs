@@ -75,12 +75,15 @@ namespace OK
             ApplyCameraRotation();
             HandleFalling();
 
+            JumpMovement();
+
             if (_isGrounded)
             {
                 Roll();
 
                 if (_isInteracting && !_isAttacking && !_isRolling || _playerFlags.isBlocking)
                     StopMovement();
+
 
                 if (_isInteracting || _isJumping || _playerFlags.isBlocking)
                     return;
@@ -126,6 +129,16 @@ namespace OK
                 SetMoveSpeed();
                 _moveDirection = _rotationAngle * Vector3.forward * _moveSpeed * GetInput().magnitude;
                 _rigidbody.velocity = _moveDirection;
+            }
+        }
+
+        private void JumpMovement()
+        {
+            if (_isJumping || _isFalling)
+            {
+                Vector3 direcion = _rotationAngle * Vector3.forward * 0.5f * GetInput().magnitude;
+                direcion = new Vector3(direcion.x, 0, direcion.z);
+                _rigidbody.AddForce(direcion, ForceMode.Acceleration);
             }
         }
 
